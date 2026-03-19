@@ -15,24 +15,7 @@ let textSearchQuery = ''; // 实时文本搜索查询
 let previousActiveKeywords = null; // 文本搜索激活时，暂存之前的关键词激活集合
 let previousActiveAuthors = null; // 文本搜索激活时，暂存之前的作者激活集合
 
-// 
-const PRESET_KEYWORDS = [
-    "interpretability",
-    "explainability",
-    "probing",
-    "attribution",
-    "mechanistic",
-    "causal",
-    "representation",
-    "information bottleneck",
-    "information flow",
-    "activation steering",
-    "attention analysis",
-    "sparse feature"
-];
 
-let selectedKeywords = JSON.parse(localStorage.getItem("selectedKeywords") || "[]");
-let keywordMode = localStorage.getItem("keywordMode") || "OR"; // future use
 
 // 加载用户的关键词设置
 function loadUserKeywords() {
