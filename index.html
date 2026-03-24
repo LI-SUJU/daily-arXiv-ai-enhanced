@@ -124,33 +124,14 @@
                     </div> -->
                 </div>
             </div>
-            <div class="category-nav">
+            <div class="category-nav" id="categoryNav">
+                <!-- Always-visible row: Category + Search/Filter + toggle -->
                 <div class="category-label-container">
                     <span class="category-nav-label">Category</span>
                     <div class="category-scroll">
                         <button class="category-button active" data-category="all">All</button>
-                        <!-- 分类按钮将通过 JavaScript 动态生成 -->
                     </div>
-                </div>
-                <!-- Topics Row -->
-                <div class="topics-label-container">
-                    <span class="topics-nav-label">Topics</span>
-                    <div class="topics-scroll" id="topicTags"></div>
-                    <div id="topicInputContainer" class="topic-input-container" style="display:none;">
-                        <input id="topicInput" type="text" placeholder="e.g. interpretability" maxlength="40" />
-                        <button id="topicInputConfirm" class="topic-confirm-btn">Add</button>
-                        <button id="topicInputCancel" class="topic-cancel-btn">×</button>
-                    </div>
-                    <button id="addTopicBtn" class="add-topic-btn" title="Add topic">+</button>
-                </div>
-                <!-- Topic Word Picker Row -->
-                <div id="topicWordPickerRow" class="topic-word-picker-row" style="display:none;">
-                    <div id="topicWordPickerTags" class="topic-word-picker-scroll"></div>
-                </div>
-                <!-- Filter Tag Container -->
-                <div class="filter-label-container">
-                    <span class="filter-nav-label">Filter</span>
-                    <!-- Text Search (magnifier-triggered) -->
+                    <!-- Search (moved from Filter row) -->
                     <div id="textSearchContainer" class="text-search">
                         <button id="textSearchToggle" class="icon-button" title="Search">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -162,8 +143,28 @@
                             <button id="textSearchClear" class="clear-x" title="Clear" style="display: none;">×</button>
                         </div>
                     </div>
-                    <div class="filter-scroll" id="filterTags">
-                        <!-- Authors and Keywords will be dynamically added here -->
+                    <div class="filter-scroll" id="filterTags"></div>
+                    <!-- Collapse toggle -->
+                    <button id="navToggleBtn" class="nav-toggle-btn" onclick="toggleNavCollapse()" title="Show/hide topics">
+                        <svg id="navToggleIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Collapsible: Topics + Word picker -->
+                <div id="navCollapsible" class="nav-collapsible">
+                    <div class="topics-label-container">
+                        <span class="topics-nav-label">Topics</span>
+                        <div class="topics-scroll" id="topicTags"></div>
+                        <div id="topicInputContainer" class="topic-input-container" style="display:none;">
+                            <input id="topicInput" type="text" placeholder="e.g. interpretability" maxlength="40" />
+                            <button id="topicInputConfirm" class="topic-confirm-btn">Add</button>
+                            <button id="topicInputCancel" class="topic-cancel-btn">×</button>
+                        </div>
+                        <button id="addTopicBtn" class="add-topic-btn" title="Add topic">+</button>
+                    </div>
+                    <div id="topicWordPickerRow" class="topic-word-picker-row" style="display:none;">
+                        <div id="topicWordPickerTags" class="topic-word-picker-scroll"></div>
                     </div>
                 </div>
             </div>

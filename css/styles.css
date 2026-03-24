@@ -319,7 +319,8 @@ header {
 .category-label-container {
   display: flex;
   align-items: center;
-  max-width: 1440px; /* 与main容器的max-width相同 */
+  flex-wrap: wrap;
+  max-width: 1440px;
   width: 100%;
   padding: 10px 24px 5px 24px; /* 减少上下内边距 */
   margin: 0 auto; /* 居中显示 */
@@ -377,11 +378,12 @@ header {
   overflow-y: hidden;
 }
 
-/* Text search UI */
+/* Text search UI — pushed to the right in the category row */
 .text-search {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin-left: auto;
   margin-right: 8px;
 }
 
@@ -643,14 +645,38 @@ header {
 }
 /* ── End Topics row ──────────────────────────────────────────────── */
 
-.filter-label-container {
-  display: flex;
-  align-items: center;
-  max-width: 1440px; /* 与main容器的max-width相同 */
+/* Nav collapsible */
+.nav-collapsible {
   width: 100%;
-  padding: 10px 24px 5px 24px; /* 与category标签容器保持一致 */
-  margin: 0 auto; /* 居中显示 */
-  position: relative;
+  overflow: hidden;
+  max-height: 300px;
+  transition: max-height 0.25s ease, opacity 0.25s ease;
+  opacity: 1;
+}
+
+.nav-collapsed .nav-collapsible {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-toggle-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.nav-toggle-btn:hover {
+  background: var(--background-hover);
 }
 
 .category-button {
