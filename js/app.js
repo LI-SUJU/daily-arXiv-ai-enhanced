@@ -1327,8 +1327,11 @@ function renderPapers() {
       paper.allCategories.map(cat => `<span class="category-tag">${cat}</span>`).join('') : 
       `<span class="category-tag">${paper.category}</span>`;
     
-    // 组合需要高亮的词：关键词 + 文本搜索
+    // 组合需要高亮的词：话题 + 关键词 + 文本搜索
     const titleSummaryTerms = [];
+    if (currentTopic) {
+      titleSummaryTerms.push(currentTopic);
+    }
     if (activeKeywords.length > 0) {
       titleSummaryTerms.push(...activeKeywords);
     }
