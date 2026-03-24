@@ -6,10 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 初始化设置，从localStorage加载已保存的设置
 function initSettings() {
-  // 关键词偏好设置
   loadKeywordPreferences();
-  // 作者偏好设置
   loadAuthorPreferences();
+  loadAiSettings();
+}
+
+function loadAiSettings() {
+  document.getElementById('aiBaseUrl').value  = localStorage.getItem('aiBaseUrl')   || '';
+  document.getElementById('aiApiKey').value   = localStorage.getItem('aiApiKey')    || '';
+  document.getElementById('aiModelName').value = localStorage.getItem('aiModelName') || '';
 }
 
 // 从localStorage加载关键词偏好
@@ -291,9 +296,15 @@ function saveSettings() {
     authors.push(authorName);
   });
   
-  // 保存设置到localStorage
   localStorage.setItem('preferredKeywords', JSON.stringify(keywords));
   localStorage.setItem('preferredAuthors', JSON.stringify(authors));
+
+  const aiBaseUrl   = document.getElementById('aiBaseUrl').value.trim();
+  const aiApiKey    = document.getElementById('aiApiKey').value.trim();
+  const aiModelName = document.getElementById('aiModelName').value.trim();
+  if (aiBaseUrl)   localStorage.setItem('aiBaseUrl',   aiBaseUrl);   else localStorage.removeItem('aiBaseUrl');
+  if (aiApiKey)    localStorage.setItem('aiApiKey',    aiApiKey);    else localStorage.removeItem('aiApiKey');
+  if (aiModelName) localStorage.setItem('aiModelName', aiModelName); else localStorage.removeItem('aiModelName');
   
   // 显示保存成功提示，添加成功图标
   showNotification('Settings saved successfully!', 'success');
@@ -313,7 +324,13 @@ function resetSettings() {
   showEmptyTagMessage();
   showEmptyAuthorMessage();
   
-  // 显示重置成功提示
+  document.getElementById('aiBaseUrl').value   = '';
+  document.getElementById('aiApiKey').value    = '';
+  document.getElementById('aiModelName').value = '';
+  localStorage.removeItem('aiBaseUrl');
+  localStorage.removeItem('aiApiKey');
+  localStorage.removeItem('aiModelName');
+
   showNotification('Settings reset to default!', 'info');
 }
 

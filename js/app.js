@@ -1513,6 +1513,82 @@ function renderPapers() {
   });
 }
 
+async function generateAiContent() {
+  const paper = currentFilteredPapers[currentPaperIndex];
+  if (!paper) return;
+
+  const apiKey = localStorage.getItem('aiApiKey');
+  const baseUrl = (localStorage.getItem('aiBaseUrl') || 'https://api.openai.com/v1').replace(/\/$/, '');
+  const modelName = localStorage.getItem('aiModelName') || 'gpt-4o-mini';
+
+  const btn = document.getElementById('generateAiBtn');
+  const errEl = document.getElementById('aiGenerateError');
+  errEl.textContent = '';
+
+  if (!apiKey) {
+    errEl.textContent = 'No API key set — please add one in Settings.';
+    return;
+  }
+
+  btn.textContent = 'Generating...';
+  btn.disabled = true;
+
+  const prompt = `Analyze the following research paper abstract. Respond with a JSON object containing exactly these fields:
+"tldr": one concise sentence summarizing the paper
+"motivation": why this research was needed / what problem it solves
+"method": key technical approach or methodology
+"result": main results or findings
+"conclusion": broader impact or takeaway
+
+Abstract:
+${paper.details}
+
+Return valid JSON only, no markdown, no extra text.`;
+
+  try {
+    const response = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: modelName,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`API ${response.status}: ${errText}`);
+    }
+
+    const data = await response.json();
+    const aiText = data.choices[0].message.content;
+    let aiData;
+    try {
+      aiData = JSON.parse(aiText);
+    } catch {
+      const match = aiText.match(/\{[\s\S]*\}/);
+      if (match) aiData = JSON.parse(match[0]);
+      else throw new Error('Could not parse AI response as JSON');
+    }
+
+    paper.summary    = aiData.tldr       || '';
+    paper.motivation = aiData.motivation || '';
+    paper.method     = aiData.method     || '';
+    paper.result     = aiData.result     || '';
+    paper.conclusion = aiData.conclusion || '';
+
+    showPaperDetails(paper, currentPaperIndex + 1);
+  } catch (e) {
+    btn.textContent = 'Retry Generate';
+    btn.disabled = false;
+    errEl.textContent = `Error: ${e.message}`;
+    console.error('AI generation failed:', e);
+  }
+}
+
 function showPaperDetails(paper, paperIndex) {
   const modal = document.getElementById('paperModal');
   const modalTitle = document.getElementById('modalTitle');
@@ -1580,13 +1656,18 @@ function showPaperDetails(paper, paperIndex) {
       <p><strong>Date: </strong>${formatDate(paper.date)}</p>
       
       
-      ${paper.summary ? `<h3>TL;DR</h3><p>${highlightedSummary}</p>` : ''}
-      
-      <div class="paper-sections">
-        ${paper.motivation ? `<div class="paper-section"><h4>Motivation</h4><p>${highlightedMotivation}</p></div>` : ''}
-        ${paper.method ? `<div class="paper-section"><h4>Method</h4><p>${highlightedMethod}</p></div>` : ''}
-        ${paper.result ? `<div class="paper-section"><h4>Result</h4><p>${highlightedResult}</p></div>` : ''}
-        ${paper.conclusion ? `<div class="paper-section"><h4>Conclusion</h4><p>${highlightedConclusion}</p></div>` : ''}
+      <div class="ai-section">
+        ${paper.summary ? `<h3>TL;DR</h3><p>${highlightedSummary}</p>` : ''}
+        <div class="paper-sections">
+          ${paper.motivation ? `<div class="paper-section"><h4>Motivation</h4><p>${highlightedMotivation}</p></div>` : ''}
+          ${paper.method ? `<div class="paper-section"><h4>Method</h4><p>${highlightedMethod}</p></div>` : ''}
+          ${paper.result ? `<div class="paper-section"><h4>Result</h4><p>${highlightedResult}</p></div>` : ''}
+          ${paper.conclusion ? `<div class="paper-section"><h4>Conclusion</h4><p>${highlightedConclusion}</p></div>` : ''}
+        </div>
+        <button id="generateAiBtn" class="button ai-generate-btn" onclick="generateAiContent()">
+          ${paper.summary ? 'Regenerate AI Analysis' : 'Generate AI Analysis'}
+        </button>
+        <p id="aiGenerateError" class="ai-generate-error"></p>
       </div>
       
       ${highlightedAbstract ? `<h3>Abstract</h3><p class="original-abstract">${highlightedAbstract}</p>` : ''}

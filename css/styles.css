@@ -897,7 +897,10 @@ main {
   font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.5;
-  overflow: visible;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
   margin-bottom: 20px;
   border-left: 3px solid var(--primary-color);
   padding-left: 12px;
@@ -1588,6 +1591,25 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 16px;
+}
+
+.ai-generate-btn {
+  margin-top: 16px;
+  font-size: 13px;
+  padding: 6px 14px;
+  opacity: 0.8;
+}
+
+.ai-generate-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai-generate-error {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #e74c3c;
+  min-height: 16px;
 }
 
 .paper-section {
