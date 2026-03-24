@@ -465,27 +465,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.scrollY > 80 && !navCollapsed) {
       navCollapsed = true;
       document.getElementById('categoryNav')?.classList.add('nav-collapsed');
-      const icon = document.getElementById('navToggleIcon');
-      if (icon) icon.setAttribute('d', 'M7 10l5 5 5-5'); // chevron down
     } else if (window.scrollY <= 80 && navCollapsed) {
       navCollapsed = false;
       document.getElementById('categoryNav')?.classList.remove('nav-collapsed');
-      const icon = document.getElementById('navToggleIcon');
-      if (icon) icon.setAttribute('d', 'M7 14l5-5 5 5'); // chevron up
     }
   });
 });
 
 function toggleNavCollapse() {
   const nav = document.getElementById('categoryNav');
-  const icon = document.getElementById('navToggleIcon');
   if (!nav) return;
-  const collapsed = nav.classList.toggle('nav-collapsed');
-  if (icon) {
-    const path = icon.querySelector('path') || icon;
-    const el = icon.tagName === 'path' ? icon : icon.querySelector('path');
-    if (el) el.setAttribute('d', collapsed ? 'M7 10l5 5 5-5' : 'M7 14l5-5 5 5');
-  }
+  nav.classList.toggle('nav-collapsed');
 }
 
 async function fetchGitHubStats() {

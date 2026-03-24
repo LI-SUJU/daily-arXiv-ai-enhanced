@@ -319,11 +319,12 @@ header {
 .category-label-container {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  gap: 8px;
   max-width: 1440px;
   width: 100%;
-  padding: 10px 24px 5px 24px; /* 减少上下内边距 */
-  margin: 0 auto; /* 居中显示 */
+  padding: 10px 24px 5px 24px;
+  margin: 0 auto;
   position: relative;
 }
 
@@ -356,11 +357,11 @@ header {
   gap: 10px;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  width: 100%;
-  justify-content: flex-start; /* 改为左对齐 */
-  flex-wrap: nowrap; /* 禁止换行 */
-  white-space: nowrap; /* 确保内容不会换行 */
-  /* 添加鼠标滚轮横向滚动支持 */
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   overflow-y: hidden;
 }
 
@@ -453,7 +454,8 @@ header {
   display: flex;
   overflow-x: auto;
   gap: 6px;
-  flex: 1;
+  flex: 0 0 auto;
+  max-width: 100%;
   scrollbar-width: none;
 }
 
@@ -664,19 +666,29 @@ header {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+  gap: 4px;
+  padding: 5px 10px 5px 12px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  border: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: opacity 0.15s;
+  white-space: nowrap;
 }
 
 .nav-toggle-btn:hover {
-  background: var(--background-hover);
+  opacity: 0.85;
+}
+
+.nav-toggle-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.nav-collapsed .nav-toggle-btn svg {
+  transform: rotate(180deg);
 }
 
 .category-button {
@@ -1491,10 +1503,9 @@ input:checked + .toggle-slider:before {
   }
   
   .category-scroll {
-    padding: 8px 16px;
-    max-width: 100%; /* 在移动端占满宽度 */
-    justify-content: flex-start; /* 在移动端左对齐 */
-    flex-wrap: nowrap; /* 确保不换行 */
+    padding: 8px 0;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
   }
   
   .filter-scroll {
