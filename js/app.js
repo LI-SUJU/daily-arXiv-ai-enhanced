@@ -723,27 +723,30 @@ async function fetchAvailableDates() {
     const text = await response.text();
     const files = text.trim().split('\n');
 
-    const dateRegex = /(\d{4}-\d{2}-\d{2})_AI_enhanced_(English|Chinese)\.jsonl/;
-    const dateLanguageMap = new Map(); // Store date -> available languages
-    const dates = [];
-    
+    const plainRegex = /^(\d{4}-\d{2}-\d{2})\.jsonl$/;
+    const aiRegex = /(\d{4}-\d{2}-\d{2})_AI_enhanced_(English|Chinese)\.jsonl/;
+    const dateLanguageMap = new Map();
+    const plainDates = new Set();
+
     files.forEach(file => {
-      const match = file.match(dateRegex);
-      if (match && match[1] && match[2]) {
-        const date = match[1];
-        const language = match[2];
-        
-        if (!dateLanguageMap.has(date)) {
-          dateLanguageMap.set(date, []);
-          dates.push(date);
-        }
-        dateLanguageMap.get(date).push(language);
+      const f = file.trim();
+      const plainMatch = f.match(plainRegex);
+      if (plainMatch) {
+        plainDates.add(plainMatch[1]);
+        return;
+      }
+      const aiMatch = f.match(aiRegex);
+      if (aiMatch) {
+        const date = aiMatch[1], lang = aiMatch[2];
+        if (!dateLanguageMap.has(date)) dateLanguageMap.set(date, []);
+        dateLanguageMap.get(date).push(lang);
       }
     });
-    
-    // Store the language mapping globally for later use
+
     window.dateLanguageMap = dateLanguageMap;
-    availableDates = [...new Set(dates)];
+    window.plainDates = plainDates;
+    const allDates = new Set([...plainDates, ...dateLanguageMap.keys()]);
+    availableDates = [...allDates];
     availableDates.sort((a, b) => new Date(b) - new Date(a));
 
     initDatePicker(); // Assuming this function uses availableDates
@@ -821,6 +824,14 @@ function toggleRangeMode() {
   }
 }
 
+function getDataUrlForDate(date) {
+  if (window.plainDates?.has(date)) {
+    return DATA_CONFIG.getDataUrl(`data/${date}.jsonl`);
+  }
+  const lang = selectLanguageForDate(date);
+  return DATA_CONFIG.getDataUrl(`data/${date}_AI_enhanced_${lang}.jsonl`);
+}
+
 async function loadPapersByDate(date) {
   currentDate = date;
   document.getElementById('currentDate').textContent = formatDate(date);
@@ -842,9 +853,7 @@ async function loadPapersByDate(date) {
   `;
   
   try {
-    const selectedLanguage = selectLanguageForDate(date);
-    // 从 data 分支获取数据文件
-    const dataUrl = DATA_CONFIG.getDataUrl(`data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
+    const dataUrl = getDataUrlForDate(date);
     const response = await fetch(dataUrl);
     // 如果文件不存在（例如返回 404），在论文展示区域提示没有论文
     if (!response.ok) {
@@ -1770,9 +1779,7 @@ async function loadPapersByDateRange(startDate, endDate) {
     const allPaperData = {};
     
     for (const date of validDatesInRange) {
-      const selectedLanguage = selectLanguageForDate(date);
-      // 从 data 分支获取数据文件
-      const dataUrl = DATA_CONFIG.getDataUrl(`data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
+      const dataUrl = getDataUrlForDate(date);
       const response = await fetch(dataUrl);
       const text = await response.text();
       const dataPapers = parseJsonlData(text, date);
