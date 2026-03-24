@@ -19,6 +19,8 @@ let activeTopics = new Set(); // currently active topic strings (multi-select)
 let topicWordData = new Map(); // topic -> {words:[{word,count}], selectedWords:Set}
 let lunrIndex = null; // lunr search index for topic filtering
 let lunrIdSet = null;
+let digestExcludedPapers = new Set(); // paper IDs excluded from AI digest
+let lastDigestMarkdown = '';
 
 
 
@@ -1543,7 +1545,13 @@ function renderPapers() {
     // }
 
     paperCard.innerHTML = `
-      <div class="paper-card-index">${index + 1}</div>
+      <button class="paper-card-index ${digestExcludedPapers.has(paper.id) ? 'excluded' : ''}"
+        data-pid="${paper.id}"
+        onclick="event.stopPropagation(); toggleDigestExclude('${paper.id}', this)"
+        title="${digestExcludedPapers.has(paper.id) ? 'Include in digest' : 'Exclude from digest'}">
+        <span class="card-idx-num">${index + 1}</span>
+        <span class="card-idx-action">${digestExcludedPapers.has(paper.id) ? 'Include' : 'Exclude'}</span>
+      </button>
       ${paper.isMatched ? '<div class="match-badge" title="匹配您的搜索条件"></div>' : ''}
       <div class="paper-card-header">
         <h3 class="paper-card-title">${highlightedTitle}</h3>
@@ -1807,8 +1815,12 @@ function showPaperDetails(paper, paperIndex) {
       <p><strong>Date: </strong>${formatDate(paper.date)}</p>
       ${paper.published ? `<p><strong>Submitted: </strong>${new Date(paper.published).toUTCString().replace(' GMT', ' UTC')}</p>` : ''}
       ${paper.comment ? `<p><strong>Comment: </strong><span class="paper-comment">${paper.comment}</span></p>` : ''}
-      
-      
+      <button id="digestExcludeModalBtn"
+        class="digest-exclude-modal-btn ${digestExcludedPapers.has(paper.id) ? 'excluded' : ''}"
+        onclick="toggleDigestExcludeFromModal('${paper.id}')">
+        ${digestExcludedPapers.has(paper.id) ? '↩ Include in Digest' : '✕ Exclude from Digest'}
+      </button>
+
       <div class="ai-section">
         ${paper.summary ? `<h3>TL;DR</h3><p>${highlightedSummary}</p>` : ''}
         <div class="paper-sections">
@@ -2156,4 +2168,302 @@ function togglePdfSize(button) {
       togglePdfSize(button);
     });
   }
+}
+
+// ── AI Digest ─────────────────────────────────────────────────────────────────
+
+const DIGEST_FIXED_PROMPT = `You are a research journalist writing for an AI/ML research community. Given the following papers, write a comprehensive daily digest as a well-structured, engaging article.
+
+Structure (markdown format):
+- ## Executive Summary — 2-3 sentences capturing the day's research themes
+- Thematic sections (## Section Title) grouping related papers; cite papers inline as [1], [2], etc.
+- Use **bold** for key terms, methods, and findings
+- ## Key Takeaways — 3-5 bullet points of the most important results
+
+Style: specific, technical, and engaging. Every paper must be cited at least once. Avoid padding. Be precise about methods and results.`;
+
+function formatAuthorsShort(authors) {
+  if (!authors) return '';
+  const parts = authors.split(',').map(s => s.trim()).filter(Boolean);
+  if (parts.length <= 2) return parts.join(', ');
+  return `${parts[0]}, ${parts[1]} et al.`;
+}
+
+function openDigestModal() {
+  const modal = document.getElementById('digestModal');
+  if (!modal) return;
+  renderDigestModalContent();
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDigestModal() {
+  const modal = document.getElementById('digestModal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function renderDigestModalContent() {
+  const content = document.getElementById('digestModalContent');
+  if (!content) return;
+  const selected = currentFilteredPapers.filter(p => !digestExcludedPapers.has(p.id));
+  const userPromptVal = localStorage.getItem('digestUserPrompt') || '';
+
+  content.innerHTML = `
+    <div class="digest-modal-header">
+      <div>
+        <h2 class="digest-modal-title">AI Research Digest</h2>
+        <p class="digest-modal-subtitle" id="digestSubtitle">${selected.length} of ${currentFilteredPapers.length} papers selected</p>
+      </div>
+      <button class="digest-close-btn" onclick="closeDigestModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="digest-modal-body">
+
+      <div class="digest-section">
+        <div class="digest-section-head">
+          <span class="digest-sec-label">Papers</span>
+          <span class="digest-count" id="digestCount">${selected.length} selected</span>
+        </div>
+        <div id="digestPapersGrid" class="digest-papers-grid">
+          ${renderDigestPaperCards()}
+        </div>
+      </div>
+
+      <div class="digest-section">
+        <div class="digest-sec-label">Base Prompt <span class="digest-prompt-note">(fixed)</span></div>
+        <pre class="digest-prompt-fixed">${DIGEST_FIXED_PROMPT}</pre>
+        <div class="digest-sec-label" style="margin-top:12px;">Additional Instructions <span class="digest-prompt-note">(optional)</span></div>
+        <textarea id="digestUserPrompt" class="digest-user-prompt" rows="3"
+          placeholder="e.g. Focus on practical applications. Keep it concise."
+          oninput="localStorage.setItem('digestUserPrompt', this.value)">${userPromptVal}</textarea>
+      </div>
+
+      <div class="digest-actions">
+        <button id="digestGenerateBtn" class="button primary digest-generate-btn" onclick="generateDigest()">
+          ✦ Generate Digest
+        </button>
+        <p id="digestError" class="digest-error"></p>
+      </div>
+
+      <div id="digestResultSection" class="digest-result-section" style="display:none;">
+        <div class="digest-result-toolbar">
+          <span class="digest-sec-label">Digest</span>
+          <button class="button digest-copy-btn" onclick="copyDigest()">Copy</button>
+        </div>
+        <div id="digestArticle" class="digest-article"></div>
+        <div class="digest-references">
+          <h3>References</h3>
+          <ol id="digestRefList"></ol>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+const DIGEST_INITIAL_SHOW = 12;
+
+function renderDigestPaperCards() {
+  const all = currentFilteredPapers;
+  const selectedPapers = all.filter(p => !digestExcludedPapers.has(p.id));
+  let refNum = 0;
+
+  const cardHtml = all.map(p => {
+    const excluded = digestExcludedPapers.has(p.id);
+    if (!excluded) refNum++;
+    const ref = excluded ? '' : `[${refNum}]`;
+    return `<div class="digest-paper-card ${excluded ? 'deselected' : ''}" data-pid="${p.id}" onclick="toggleDigestPaperInModal('${p.id}')">
+      <span class="digest-ref-num">${ref}</span>
+      <div class="digest-paper-info">
+        <span class="digest-paper-title">${p.title}</span>
+        <span class="digest-paper-meta">${formatAuthorsShort(p.authors)} · ${formatDate(p.date)}</span>
+      </div>
+      <span class="digest-check">${excluded ? '' : '✓'}</span>
+    </div>`;
+  });
+
+  const visible = cardHtml.slice(0, DIGEST_INITIAL_SHOW).join('');
+  const rest = cardHtml.slice(DIGEST_INITIAL_SHOW);
+  const hasMore = rest.length > 0;
+
+  return `${visible}
+    ${hasMore ? `
+      <div id="digestHiddenCards" style="display:none;">${rest.join('')}</div>
+      <button class="digest-expand-btn" id="digestExpandBtn" onclick="toggleDigestPapersExpand()">
+        Show all ${all.length} papers ▾
+      </button>` : ''}`;
+}
+
+function toggleDigestPaperInModal(paperId) {
+  if (digestExcludedPapers.has(paperId)) {
+    digestExcludedPapers.delete(paperId);
+  } else {
+    digestExcludedPapers.add(paperId);
+  }
+  // Re-render paper cards and update count
+  const grid = document.getElementById('digestPapersGrid');
+  if (grid) grid.innerHTML = renderDigestPaperCards();
+  const selected = currentFilteredPapers.filter(p => !digestExcludedPapers.has(p.id));
+  const countEl = document.getElementById('digestCount');
+  if (countEl) countEl.textContent = `${selected.length} selected`;
+  const subtitleEl = document.getElementById('digestSubtitle');
+  if (subtitleEl) subtitleEl.textContent = `${selected.length} of ${currentFilteredPapers.length} papers selected`;
+  updateDigestBadges();
+}
+
+function toggleDigestPapersExpand() {
+  const hidden = document.getElementById('digestHiddenCards');
+  const btn = document.getElementById('digestExpandBtn');
+  if (!hidden || !btn) return;
+  const expanded = hidden.style.display !== 'none';
+  hidden.style.display = expanded ? 'none' : 'contents';
+  btn.textContent = expanded
+    ? `Show all ${currentFilteredPapers.length} papers ▾`
+    : 'Show fewer ▴';
+}
+
+async function generateDigest() {
+  const apiKey = localStorage.getItem('aiApiKey');
+  const baseUrl = (localStorage.getItem('aiBaseUrl') || 'https://api.openai.com/v1').replace(/\/$/, '');
+  const modelName = localStorage.getItem('aiModelName') || 'gpt-4o-mini';
+  const errEl = document.getElementById('digestError');
+  const btn = document.getElementById('digestGenerateBtn');
+
+  errEl.textContent = '';
+  if (!apiKey) { errEl.textContent = 'No API key — add one in Settings.'; return; }
+
+  const selected = currentFilteredPapers.filter(p => !digestExcludedPapers.has(p.id));
+  if (selected.length === 0) { errEl.textContent = 'No papers selected.'; return; }
+
+  btn.textContent = 'Generating…';
+  btn.disabled = true;
+
+  const userAddition = (document.getElementById('digestUserPrompt')?.value || '').trim();
+  const papersList = selected.map((p, i) =>
+    `[${i + 1}] Title: "${p.title}"\nAuthors: ${p.authors}\n${p.summary ? `TL;DR: ${p.summary}` : `Abstract: ${(p.details || '').slice(0, 400)}`}`
+  ).join('\n\n');
+
+  const fullPrompt = `${DIGEST_FIXED_PROMPT}${userAddition ? `\n\nAdditional instructions: ${userAddition}` : ''}\n\n---\n\nPapers:\n\n${papersList}`;
+
+  try {
+    const res = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({ model: modelName, messages: [{ role: 'user', content: fullPrompt }], max_tokens: 4000 })
+    });
+    if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+    const data = await res.json();
+    const mdText = data.choices[0].message.content;
+    lastDigestMarkdown = mdText;
+
+    // Render article
+    const resultSection = document.getElementById('digestResultSection');
+    resultSection.style.display = 'block';
+    document.getElementById('digestArticle').innerHTML = digestMarkdownToHtml(mdText);
+
+    // Render references
+    document.getElementById('digestRefList').innerHTML = selected.map((p, i) =>
+      `<li><a href="${p.url}" target="_blank" rel="noopener">${p.title}</a><br>
+       <span class="digest-ref-meta">${formatAuthorsShort(p.authors)} · Crawled ${formatDate(p.date)}</span></li>`
+    ).join('');
+
+    saveDigest(mdText, selected);
+    btn.textContent = '✦ Regenerate';
+    btn.disabled = false;
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (e) {
+    btn.textContent = '✦ Generate Digest';
+    btn.disabled = false;
+    errEl.textContent = `Error: ${e.message}`;
+  }
+}
+
+function digestMarkdownToHtml(md) {
+  let html = md
+    // Headings
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    // Bold + italic
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // Citation superscripts [n]
+    .replace(/\[(\d+)\]/g, '<sup class="cite">[<a href="#ref-$1">$1</a>]</sup>')
+    // Bullet lists
+    .replace(/^[\*\-] (.+)$/gm, '<li>$1</li>')
+    // Split into blocks
+    .split(/\n{2,}/);
+
+  html = html.map(block => {
+    const t = block.trim();
+    if (!t) return '';
+    if (/^<h[1-3]>/.test(t)) return t;
+    if (/^<li>/.test(t)) return `<ul>${t}</ul>`;
+    return `<p>${t.replace(/\n/g, ' ')}</p>`;
+  });
+
+  return html.join('\n');
+}
+
+function saveDigest(text, papers) {
+  const saved = JSON.parse(localStorage.getItem('savedDigests') || '[]');
+  saved.unshift({
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+    digest: text,
+    papers: papers.map(p => ({ title: p.title, url: p.url, authors: p.authors, date: p.date, id: p.id }))
+  });
+  if (saved.length > 20) saved.length = 20;
+  localStorage.setItem('savedDigests', JSON.stringify(saved));
+}
+
+function copyDigest() {
+  navigator.clipboard.writeText(lastDigestMarkdown).then(() => {
+    const btn = document.querySelector('.digest-copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 2000); }
+  });
+}
+
+function toggleDigestExclude(paperId, el) {
+  if (!el) return;
+  if (digestExcludedPapers.has(paperId)) {
+    digestExcludedPapers.delete(paperId);
+    el.classList.remove('excluded');
+    el.querySelector('.card-idx-action').textContent = 'Exclude';
+    el.title = 'Exclude from digest';
+  } else {
+    digestExcludedPapers.add(paperId);
+    el.classList.add('excluded');
+    el.querySelector('.card-idx-action').textContent = 'Include';
+    el.title = 'Include in digest';
+  }
+}
+
+function toggleDigestExcludeFromModal(paperId) {
+  if (digestExcludedPapers.has(paperId)) {
+    digestExcludedPapers.delete(paperId);
+  } else {
+    digestExcludedPapers.add(paperId);
+  }
+  updateDigestBadges();
+  const btn = document.getElementById('digestExcludeModalBtn');
+  if (btn) {
+    const exc = digestExcludedPapers.has(paperId);
+    btn.textContent = exc ? '↩ Include in Digest' : '✕ Exclude from Digest';
+    btn.classList.toggle('excluded', exc);
+  }
+}
+
+function updateDigestBadges() {
+  document.querySelectorAll('.paper-card-index[data-pid]').forEach(badge => {
+    const pid = badge.dataset.pid;
+    const exc = digestExcludedPapers.has(pid);
+    badge.classList.toggle('excluded', exc);
+    const action = badge.querySelector('.card-idx-action');
+    if (action) action.textContent = exc ? 'Include' : 'Exclude';
+    badge.title = exc ? 'Include in digest' : 'Exclude from digest';
+  });
 }
