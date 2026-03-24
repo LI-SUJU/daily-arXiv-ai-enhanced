@@ -165,13 +165,12 @@
                         <div class="flatpickr-container">
                             <input type="text" id="datepicker" placeholder="Select Date" data-input>
                         </div>
-                        <div class="date-range-selector">
-                            <span class="toggle-label">Range</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="dateRangeMode">
-                                <span class="toggle-slider"></span>
-                            </label>
+                        <div class="date-mode-selector">
+                            <button class="date-mode-btn active" data-mode="single" onclick="setDateMode('single')">Single</button>
+                            <button class="date-mode-btn" data-mode="range" onclick="setDateMode('range')">Range</button>
+                            <button class="date-mode-btn" data-mode="multi" onclick="setDateMode('multi')">Multi</button>
                         </div>
+                        <button id="loadMultiDatesBtn" class="button primary load-multi-btn" style="display:none;" onclick="loadSelectedMultiDates()">Load Selected</button>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ let currentView = 'grid'; // 'grid' 或 'list'
 let currentCategory = 'all';
 let paperData = {};
 let flatpickrInstance = null;
-let isRangeMode = false;
+let datePickerMode = 'single'; // 'single' | 'range' | 'multi'
 let activeKeywords = []; // 存储激活的关键词
 let userKeywords = []; // 存储用户的关键词
 let activeAuthors = []; // 存储激活的作者
@@ -514,7 +514,7 @@ function initEventListeners() {
     e.stopPropagation();
   });
 
-  document.getElementById('dateRangeMode').addEventListener('change', toggleRangeMode);
+  // date mode buttons wired via onclick in HTML
   
   // 其他原有的事件监听器
   document.getElementById('closeModal').addEventListener('click', closeModal);
@@ -845,31 +845,29 @@ function initDatePicker() {
   flatpickrInstance = flatpickr(datepickerInput, {
     inline: true,
     dateFormat: "Y-m-d",
+    mode: datePickerMode === 'range' ? 'range' : datePickerMode === 'multi' ? 'multiple' : 'single',
     defaultDate: availableDates[0],
     enable: [
       function(date) {
-        // 只启用有效日期
         const dateStr = date.getFullYear() + "-" +
                         String(date.getMonth() + 1).padStart(2, '0') + "-" +
                         String(date.getDate()).padStart(2, '0');
-        // 在 availableDates[0] 之后的日期全部返回 false，否则返回 true
         return dateStr <= availableDates[0];
       }
     ],
-    onChange: function(selectedDates, dateStr) {
-      if (isRangeMode && selectedDates.length === 2) {
-        // 处理日期范围选择
+    onChange: function(selectedDates) {
+      if (datePickerMode === 'range' && selectedDates.length === 2) {
         const startDate = formatDateForAPI(selectedDates[0]);
         const endDate = formatDateForAPI(selectedDates[1]);
         loadPapersByDateRange(startDate, endDate);
         toggleDatePicker();
-      } else if (!isRangeMode && selectedDates.length === 1) {
-        // 处理单个日期选择
-        const selectedDate = formatDateForAPI(selectedDates[0]);
-        // if (availableDates.includes(selectedDate)) {
-          loadPapersByDate(selectedDate);
-          toggleDatePicker();
-        // }
+      } else if (datePickerMode === 'single' && selectedDates.length === 1) {
+        loadPapersByDate(formatDateForAPI(selectedDates[0]));
+        toggleDatePicker();
+      } else if (datePickerMode === 'multi') {
+        // Update the load button label with count
+        const btn = document.getElementById('loadMultiDatesBtn');
+        if (btn) btn.textContent = `Load ${selectedDates.length} date${selectedDates.length !== 1 ? 's' : ''}`;
       }
     }
   });
@@ -887,12 +885,34 @@ function formatDateForAPI(date) {
          String(date.getDate()).padStart(2, '0');
 }
 
-function toggleRangeMode() {
-  isRangeMode = document.getElementById('dateRangeMode').checked;
-  
-  if (flatpickrInstance) {
-    flatpickrInstance.set('mode', isRangeMode ? 'range' : 'single');
+function setDateMode(mode) {
+  datePickerMode = mode;
+
+  // Update button active states
+  document.querySelectorAll('.date-mode-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === mode);
+  });
+
+  // Show/hide load button for multi mode
+  const loadBtn = document.getElementById('loadMultiDatesBtn');
+  if (loadBtn) {
+    loadBtn.style.display = mode === 'multi' ? '' : 'none';
+    loadBtn.textContent = 'Load Selected';
   }
+
+  if (flatpickrInstance) {
+    flatpickrInstance.set('mode', mode === 'range' ? 'range' : mode === 'multi' ? 'multiple' : 'single');
+    flatpickrInstance.clear();
+  }
+}
+
+function loadSelectedMultiDates() {
+  if (!flatpickrInstance) return;
+  const selectedDates = flatpickrInstance.selectedDates;
+  if (selectedDates.length === 0) return;
+  const dates = selectedDates.map(formatDateForAPI).sort((a, b) => b.localeCompare(a));
+  loadPapersByDates(dates);
+  toggleDatePicker();
 }
 
 function getDataUrlForDate(date) {
@@ -1960,6 +1980,55 @@ function formatDate(dateString) {
     month: 'numeric',
     day: 'numeric'
   });
+}
+
+async function loadPapersByDates(dates) {
+  if (dates.length === 1) {
+    return loadPapersByDate(dates[0]);
+  }
+
+  currentDate = dates.join(',');
+  const label = dates.length <= 3
+    ? dates.map(formatDate).join(', ')
+    : `${dates.length} dates`;
+  document.getElementById('currentDate').textContent = label;
+
+  const container = document.getElementById('paperContainer');
+  container.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Loading papers from ${label}...</p>
+    </div>
+  `;
+
+  try {
+    const results = await Promise.all(
+      dates.map(async date => {
+        const res = await fetch(getDataUrlForDate(date), { cache: 'no-store' });
+        if (!res.ok) return {};
+        return parseJsonlData(await res.text(), date);
+      })
+    );
+
+    const merged = {};
+    results.forEach(data => {
+      Object.keys(data).forEach(cat => {
+        if (!merged[cat]) merged[cat] = [];
+        merged[cat] = merged[cat].concat(data[cat]);
+      });
+    });
+
+    paperData = merged;
+    buildLunrIndex(paperData);
+    renderCategoryFilter(getAllCategories(paperData));
+    renderPapers();
+  } catch (error) {
+    container.innerHTML = `
+      <div class="loading-container">
+        <p>Loading failed: ${error.message}</p>
+      </div>
+    `;
+  }
 }
 
 async function loadPapersByDateRange(startDate, endDate) {

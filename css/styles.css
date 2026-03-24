@@ -1427,16 +1427,45 @@ main {
   cursor: not-allowed;
 }
 
-.date-range-selector {
+.date-mode-selector {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 0;
+  gap: 0;
+  padding: 12px 0 8px;
   border-top: 1px solid var(--border-color);
+  margin: 16px -24px 0 -24px;
   background-color: rgba(0, 0, 0, 0.02);
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  margin: 16px -24px -24px -24px;
 }
+
+.date-mode-btn {
+  padding: 5px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  background: var(--card-background);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.date-mode-btn:first-child { border-radius: 8px 0 0 8px; }
+.date-mode-btn:last-child  { border-radius: 0 8px 8px 0; border-left: none; }
+.date-mode-btn:not(:first-child):not(:last-child) { border-left: none; }
+.date-mode-btn.active {
+  background: var(--gradient-primary);
+  color: white;
+  border-color: transparent;
+}
+
+.load-multi-btn {
+  display: block;
+  margin: 8px auto 0;
+  font-size: 13px;
+  padding: 6px 20px;
+}
+
+/* keep old toggle styles in case anything references them */
+.date-range-selector { display: none; }
 
 .toggle-switch {
   position: relative;
