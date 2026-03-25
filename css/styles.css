@@ -222,6 +222,7 @@ header {
   overflow: hidden;
 }
 .ai-digest-float .digest-nav-label {
+  display: inline-block;
   max-width: 0;
   overflow: hidden;
   transition: max-width 0.25s ease;
