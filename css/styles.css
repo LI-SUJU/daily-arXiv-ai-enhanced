@@ -3159,8 +3159,8 @@ footer {
   -webkit-backdrop-filter: blur(4px);
 }
 #digestViewModal .digest-modal {
-  max-width: min(960px, 95vw);
-  max-height: 92vh;
+  max-width: min(1200px, 96vw);
+  max-height: 95vh;
 }
 
 /* Digest view modal layout */

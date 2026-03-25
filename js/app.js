@@ -500,6 +500,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Restore filter state from session (overrides defaults set above)
   restoreFilterState();
+  // Re-render topics row so buttons reflect restored activeTopics
+  renderTopicsRow();
 
   // Wire up add-topic UI
   const addTopicBtn = document.getElementById('addTopicBtn');
