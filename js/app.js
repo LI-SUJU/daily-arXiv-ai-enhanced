@@ -2485,8 +2485,17 @@ function renderDigestsPanel() {
   }).join('');
 }
 
+let digestViewIndex = 0;
+
 function openDigestViewModal(index) {
+  digestViewIndex = index;
+  renderDigestViewModal();
+  document.getElementById('digestViewModal').style.display = 'flex';
+}
+
+function renderDigestViewModal() {
   const digests = JSON.parse(localStorage.getItem('savedDigests') || '[]');
+  const index = digestViewIndex;
   const digest = digests[index];
   if (!digest) return;
 
@@ -2500,12 +2509,13 @@ function openDigestViewModal(index) {
   const ts = new Date(digest.timestamp).toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
   });
+  const hasPrev = index < digests.length - 1;
+  const hasNext = index > 0;
 
-  const modal = document.getElementById('digestViewModal');
   document.getElementById('digestViewContent').innerHTML = `
     <div class="digest-view-header">
       <div class="digest-view-header-left">
-        <p class="digest-view-meta">${ts} · ${papers.length} papers</p>
+        <p class="digest-view-meta">${ts} · ${papers.length} papers · ${index + 1} / ${digests.length}</p>
         <h1 class="digest-view-title">${escapeHtml(digest.title || 'Research Digest')}</h1>
       </div>
       <button class="digest-close-btn" onclick="closeDigestViewModal()">
@@ -2518,18 +2528,43 @@ function openDigestViewModal(index) {
     </div>
     <div class="digest-view-footer">
       <button class="button digest-entry-delete-btn" onclick="deletePanelDigest(${index}); closeDigestViewModal();">Delete</button>
+      <div class="digest-view-nav">
+        <button class="button digest-view-nav-btn" onclick="navigateDigestView(1)" ${!hasPrev ? 'disabled' : ''} title="Previous (←)">&#8592; Prev</button>
+        <button class="button digest-view-nav-btn" onclick="navigateDigestView(-1)" ${!hasNext ? 'disabled' : ''} title="Next (→)">Next &#8594;</button>
+      </div>
       <div style="display:flex;gap:8px;">
         <button class="button" onclick="copyPanelDigest(${index})" id="digestViewCopyBtn">Copy</button>
         <button class="button primary" onclick="closeDigestViewModal()">Close</button>
       </div>
     </div>`;
-  modal.style.display = 'flex';
+
+  // Scroll body back to top on navigation
+  const body = document.querySelector('#digestViewContent .digest-view-body');
+  if (body) body.scrollTop = 0;
+}
+
+function navigateDigestView(delta) {
+  const digests = JSON.parse(localStorage.getItem('savedDigests') || '[]');
+  const next = digestViewIndex + delta;
+  if (next >= 0 && next < digests.length) {
+    digestViewIndex = next;
+    renderDigestViewModal();
+  }
 }
 
 function closeDigestViewModal() {
   const modal = document.getElementById('digestViewModal');
   if (modal) modal.style.display = 'none';
 }
+
+// Keyboard navigation for digest view modal
+document.addEventListener('keydown', e => {
+  const modal = document.getElementById('digestViewModal');
+  if (!modal || modal.style.display === 'none') return;
+  if (e.key === 'ArrowLeft') { e.preventDefault(); navigateDigestView(1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); navigateDigestView(-1); }
+  if (e.key === 'Escape') closeDigestViewModal();
+});
 
 function deletePanelDigest(index) {
   if (!confirm('Delete this digest? This cannot be undone.')) return;

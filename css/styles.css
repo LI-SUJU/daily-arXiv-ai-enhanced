@@ -3199,7 +3199,14 @@ footer {
   padding: 12px 28px 16px;
   border-top: 1px solid var(--border-color);
   flex-shrink: 0;
+  gap: 8px;
 }
+.digest-view-nav {
+  display: flex;
+  gap: 6px;
+}
+.digest-view-nav-btn { font-size: 13px; padding: 5px 12px; }
+.digest-view-nav-btn:disabled { opacity: 0.35; cursor: default; }
 
 /* ── Digests page ────────────────────────────────────────────────── */
 .digests-page {
