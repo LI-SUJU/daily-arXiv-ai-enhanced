@@ -2202,6 +2202,19 @@ function formatAuthorsShort(authors) {
   return `${parts[0]}, ${parts[1]} et al.`;
 }
 
+function updateDigestNavBtn() {
+  const btn = document.getElementById('digestNavBtn');
+  if (!btn) return;
+  btn.dataset.state = digestView;
+  if (digestView === 'generating') {
+    btn.innerHTML = `<span class="digest-nav-spinner"></span><span class="digest-nav-label">Generating…</span>`;
+  } else if (digestView === 'result') {
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg><span class="digest-nav-label">Digest Ready</span>`;
+  } else {
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><span class="digest-nav-label">AI Digest</span>`;
+  }
+}
+
 function openDigestModal() {
   const modal = document.getElementById('digestModal');
   if (!modal) return;
@@ -2316,11 +2329,13 @@ function escapeHtml(str) {
 function showDigestSetup() {
   digestView = 'setup';
   renderDigestModalContent();
+  updateDigestNavBtn();
 }
 
 function showDigestResult() {
   digestView = 'result';
   renderDigestModalContent();
+  updateDigestNavBtn();
 }
 
 function renameDigestTitle() {
@@ -2341,6 +2356,12 @@ function renameDigestTitle() {
     newEl.className = 'digest-title-display';
     newEl.textContent = digestState.title;
     input.replaceWith(newEl);
+    // Re-enable save button since title changed
+    const saveBtn = document.getElementById('digestSaveBtn');
+    if (saveBtn && saveBtn.disabled) {
+      saveBtn.textContent = 'Save Digest';
+      saveBtn.disabled = false;
+    }
   };
   input.addEventListener('blur', commit);
   input.addEventListener('keydown', e => {
@@ -2447,6 +2468,7 @@ async function generateDigest() {
   digestState.selectedPapers = selected;
   digestView = 'generating';
   renderDigestModalContent();
+  updateDigestNavBtn();
 
   try {
     const res = await fetch(`${baseUrl}/chat/completions`, {
@@ -2472,10 +2494,12 @@ async function generateDigest() {
     ).join('');
 
     digestView = 'result';
+    updateDigestNavBtn();
     const modal = document.getElementById('digestModal');
     if (modal && modal.style.display !== 'none') renderDigestModalContent();
   } catch (e) {
     digestView = 'setup';
+    updateDigestNavBtn();
     const modal = document.getElementById('digestModal');
     if (modal && modal.style.display !== 'none') {
       renderDigestModalContent();
