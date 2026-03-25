@@ -352,9 +352,17 @@ function buildTopicData(topic, papers) {
         });
         wordsInPaper.forEach(w => wordCounts.set(w, (wordCounts.get(w) || 0) + 1));
       });
-      words = [...wordCounts.entries()]
-        .map(([word, count]) => ({ word, count }))
-        .sort((a, b) => b.count - a.count);
+      // Build word list from lunr-matched papers, then recount against all papers
+      // so the displayed count matches how many papers would actually be shown
+      const wordList = [...wordCounts.keys()];
+      words = wordList.map(word => {
+        const count = papers.reduce((n, p) => {
+          const t = [p.title, p.summary, p.details, p.motivation, p.method, p.result, p.conclusion]
+            .filter(Boolean).join(' ').toLowerCase();
+          return n + (t.includes(word) ? 1 : 0);
+        }, 0);
+        return { word, count };
+      }).sort((a, b) => b.count - a.count);
     } catch (e) { /* fall through to empty words */ }
   }
   // Restore saved selection if available, otherwise default to exact-match terms
