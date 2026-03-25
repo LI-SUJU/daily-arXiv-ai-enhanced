@@ -56,9 +56,7 @@
     <div class="app-container">
         <header>
             <div class="header-content">
-                <div class="header-left"></div>
-                
-                <div class="header-center">
+                <div class="header-left">
                     <div class="site-logo-wrapper">
                         <a href="index.html" class="site-logo">
                             <span class="site-title">
@@ -67,6 +65,19 @@
                         </a>
                         <span id="visitorBadge" class="visitor-badge" style="display:none" onclick="showConfigRequiredModal('save')">visitor</span>
                     </div>
+                </div>
+
+                <div class="header-center">
+                    <button id="digestNavBtn" class="digest-nav-btn" onclick="openDigestModal()" title="AI Digest on selected papers">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                        <span class="digest-nav-label">AI Digest</span>
+                    </button>
+                    <button id="navToggleBtn" class="nav-toggle-btn" onclick="toggleNavCollapse()" title="Show/hide filters">
+                        Filters
+                        <svg id="navToggleIcon" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
                 
                 <div class="header-controls">
@@ -118,19 +129,6 @@
                 </div>
             </div>
             <div class="category-nav" id="categoryNav">
-                <!-- Always-visible row: AI Digest + Topics toggle -->
-                <div class="category-label-container">
-                    <button id="digestNavBtn" class="digest-nav-btn" onclick="openDigestModal()" title="AI Digest on selected papers">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
-                        <span class="digest-nav-label">AI Digest</span>
-                    </button>
-                    <button id="navToggleBtn" class="nav-toggle-btn" onclick="toggleNavCollapse()" title="Show/hide filters">
-                        Filters
-                        <svg id="navToggleIcon" width="14" height="14" viewBox="0 0 24 24" fill="none">
-                            <path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                </div>
                 <!-- Collapsible: Category + Topics + Word picker -->
                 <div id="navCollapsible" class="nav-collapsible">
                     <div class="category-label-container category-label-container--inner">

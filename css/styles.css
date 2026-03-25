@@ -175,9 +175,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  gap: 8px;
+  flex: 1;
 }
 
 .site-logo-wrapper {
@@ -1697,13 +1696,7 @@ input:checked + .toggle-slider:before {
   }
   
   .header-center {
-    position: static;
-    transform: none;
-    margin-bottom: 8px;
-  }
-  
-  .header-left {
-    display: none;
+    flex: 0 0 auto;
   }
   
   .header-controls {
