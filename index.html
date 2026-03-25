@@ -68,29 +68,14 @@
                 </div>
 
                 <div class="header-center">
-                    <button id="digestNavBtn" class="digest-nav-btn" onclick="openDigestModal()" title="AI Digest on selected papers">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
-                        <span class="digest-nav-label">AI Digest</span>
-                    </button>
-                    <button id="navToggleBtn" class="nav-toggle-btn" onclick="toggleNavCollapse()" title="Show/hide filters">
-                        Filters
-                        <svg id="navToggleIcon" width="14" height="14" viewBox="0 0 24 24" fill="none">
-                            <path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    <button class="header-date-btn" onclick="toggleDatePicker()">
+                        <span id="currentDate">Loading…</span>
                     </button>
                 </div>
                 
                 <div class="header-controls">
-                    <div class="date-selector">
-                        <div class="date-display">
-                            <span id="currentDate">Loading...</span>
-                            <button id="calendarButton" class="icon-button">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3.01 4.9 3.01 6L3 20C3 21.1 3.89 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4ZM19 20H5V9H19V20ZM7 11H12V16H7V11Z" fill="currentColor"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                    <!-- calendarButton kept hidden — flatpickr binds to it -->
+                    <button id="calendarButton" style="display:none"></button>
                     <a href="statistic.html" class="icon-button" title="Statistics">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17ZM19 19H5V5H19V19.1V19ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z" fill="currentColor"/>
@@ -128,8 +113,19 @@
                     </div> -->
                 </div>
             </div>
+        </header>
+
+        <!-- Config-required modal -->
+        <div id="configRequiredModal" class="config-required-overlay" style="display:none" onclick="if(event.target===this)closeConfigRequiredModal()">
+            <div class="config-required-modal">
+                <button class="config-required-close" onclick="closeConfigRequiredModal()">×</button>
+                <div id="configRequiredContent"></div>
+            </div>
+        </div>
+
+        <main>
+            <!-- Filter section — scrolls with page, not sticky -->
             <div class="category-nav" id="categoryNav">
-                <!-- Collapsible: Category + Topics + Word picker -->
                 <div id="navCollapsible" class="nav-collapsible">
                     <div class="category-label-container category-label-container--inner">
                         <span class="category-nav-label">Category</span>
@@ -152,17 +148,7 @@
                     </div>
                 </div>
             </div>
-        </header>
 
-        <!-- Config-required modal -->
-        <div id="configRequiredModal" class="config-required-overlay" style="display:none" onclick="if(event.target===this)closeConfigRequiredModal()">
-            <div class="config-required-modal">
-                <button class="config-required-close" onclick="closeConfigRequiredModal()">×</button>
-                <div id="configRequiredContent"></div>
-            </div>
-        </div>
-
-        <main>
             <div class="date-picker-modal" id="datePickerModal">
                 <div class="date-picker-content">
                     <div class="date-picker-body">
@@ -245,6 +231,12 @@
             <p>Built on <a href="https://github.com/dw-dengwei/daily-arXiv-ai-enhanced" target="_blank">daily-arXiv-ai-enhanced</a> by dw-dengwei — AI-generated content, verify carefully.</p>
         </div>
     </footer>
+
+    <!-- Floating AI Digest button -->
+    <button id="digestNavBtn" class="ai-digest-float" onclick="openDigestModal()" title="AI Digest on selected papers">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+        <span class="digest-nav-label">AI Digest</span>
+    </button>
 
     <!-- 回到顶部按钮 -->
     <button id="backToTop" class="back-to-top" title="back to top">
