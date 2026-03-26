@@ -1,0 +1,272 @@
+[
+  {
+    "topic": "interpretability",
+    "date": "2026-03-26",
+    "paperCount": 8,
+    "markdown": "# The Interpretability Frontier: From Symbolic Rules to Causal Disentanglement\n\nToday's research landscape demonstrates a concerted push to move beyond post-hoc interpretability, instead embedding explainable structures directly into model architectures and evaluation frameworks. A clear theme is the fusion of neural scalability with symbolic, causal, or mechanistic priors to create models that are both powerful and inherently understandable.\n\n## Symbolic and Mechanistic Foundations for Trustworthy AI\n\nA significant strand of research argues for rebuilding evaluation and architecture from first principles using symbolic logic. [1] makes a foundational case against accuracy-only metrics, proposing a \"symbolic-mechanistic\" evaluation that combines task-relevant symbolic rules with mechanistic interpretability to create algorithmic pass/fail tests, directly exposing whether a model generalizes or exploits shortcuts. Similarly, [3] introduces Symbolic-KAN, which embeds discrete, human-readable symbolic expressions (like `sin(x)`) directly within the trainable spline functions of Kolmogorov-Arnold Networks, creating a hybrid architecture that scales with data while yielding interpretable, equation-like representations. This architectural shift is mirrored in [4], which draws inspiration from Kirchhoff's circuit laws and neuronal membrane potentials to propose a new neural network paradigm where information flows as dynamic potentials across learnable \"neuronal cables,\" aiming for a more biologically plausible and interpretable foundation for high-order perception.\n\n## Causal and Disentangled Representations in Graph Learning\n\nInterpretability in complex relational data is being advanced through causal inference and disentanglement techniques. [5] tackles the challenge of multiplex graphs by introducing a causal framework, CaDeM, which disentangles node representations into shared (common across layers) and private (layer-specific) components using backdoor adjustment, ensuring the common component is causally relevant for downstream tasks and not spuriously correlated. [2] addresses interpretability in financial graph networks for anti-money laundering by proposing LineMVGNN, which converts a transaction digraph into a line graph to naturally handle multi-dimensional edge features in a spatial GNN, improving scalability and providing clearer traceability of suspicious pathways compared to spectral methods that obscure edge modifications.\n\n## Language as a Scaffold for Visual and Molecular Interpretability\n\nVision-language models and large language models are being leveraged not just for performance, but to inject semantic meaning and planning into interpretable pipelines. [6] enhances Language-Assisted Image Clustering by generating discriminative relational text prompts (e.g., \"a dog chasing a ball\" vs. \"a cat sleeping on a sofa\") to separate visually similar classes, and employs adaptive semantic centers to better align image and text modalities, making cluster formations more semantically explainable. In the molecular domain, [7] presents MolEvolve, which uses a large language model as a \"policy\" to guide an evolutionary search for optimized molecules, generating human-readable, step-by-step rationales for each structural modification, thereby resolving opaque activity cliffs and making the molecular optimization process interpretable and actionable.\n\n## Interpretable World Models for Safe Sequential Decision-Making\n\nFor safety-critical applications like autonomous driving, interpretability is crucial for validating model-based simulations. [8] introduces DreamerAD, a latent world model for autonomous driving that achieves an 80x speedup over prior diffusion models by performing denoising in a compressed latent space in a single step. Crucially, it maintains visual interpretability by decoding these latent features back into realistic video frames, allowing humans to visually audit the imagined driving scenarios used to train the reinforcement learning policy, bridging the gap between efficiency and inspectable simulation.\n\n## Key Takeaways\n-   **Evaluation must be mechanistic:** Reliable assessment requires moving beyond aggregate accuracy to mechanistic, rule-based tests that pinpoint *how* a model solves tasks, exposing shortcut learning [1].\n-   **Symbolic-Neural hybrids are emerging:** New architectures like Symbolic-KAN are successfully embedding discrete, human-interpretable symbolic structures directly within trainable neural networks, balancing scalability with explainability [3].\n-   **Causality enables disentanglement:** Applying causal inference frameworks (e.g., backdoor adjustment) to representation learning allows for the principled separation of shared and specific factors in complex data like multiplex graphs, improving generalization and interpretability [5].\n-   **LLMs guide interpretable search:** Large language models can act as intelligible planners in scientific domains (e.g., molecular optimization), generating human-readable rationales for each step and making the discovery process transparent [7].\n-   **Latent spaces must be auditable:** For world models in safety-critical RL, efficiency gains from latent compression must not come at the cost of interpretability; decodable latent states are essential for visual validation of simulated scenarios [8].\n-   **Language structures visual concepts:** Textual prompts from VLMs can be strategically designed to provide discriminative relational semantics, making the reasoning behind image clustering decisions more explicit [6].\n-   **Biological inspiration informs new paradigms:** Neuroscience and physics (e.g., Kirchhoff's laws, membrane potentials) continue to inspire novel neural network designs that prioritize interpretable information flow from the ground up [4].",
+    "papers": [
+      {
+        "title": "Beyond Accuracy: Introducing a Symbolic-Mechanistic Approach to Interpretable Evaluation",
+        "url": "",
+        "authors": [
+          "Reza Habibi",
+          "Darian Lee",
+          "Magy Seif El-Nasr"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "LineMVGNN: Anti-Money Laundering with Line-Graph-Assisted Multi-View Graph Neural Networks",
+        "url": "",
+        "authors": [
+          "Chung-Hoo Poon",
+          "James Kwok",
+          "Calvin Chow",
+          "Jang-Hyeon Choi"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "Symbolic--KAN: Kolmogorov-Arnold Networks with Discrete Symbolic Structure for Interpretable Learning",
+        "url": "",
+        "authors": [
+          "Salah A Faroughi",
+          "Farinaz Mostajeran",
+          "Amirhossein Arzani",
+          "Shirko Faroughi"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "Kirchhoff-Inspired Neural Networks for Evolving High-Order Perception",
+        "url": "",
+        "authors": [
+          "Tongfei Chen",
+          "Jingying Yang",
+          "Linlin Yang",
+          "Jinhu Lü",
+          "David Doermann",
+          "Chunyu Xie",
+          "Long He",
+          "Tian Wang",
+          "Juan Zhang",
+          "Guodong Guo",
+          "Baochang Zhang"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "Causality-Driven Disentangled Representation Learning in Multiplex Graphs",
+        "url": "",
+        "authors": [
+          "Saba Nasiri",
+          "Selin Aviyente",
+          "Dorina Thanou"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "Language-Assisted Image Clustering Guided by Discriminative Relational Signals and Adaptive Semantic Centers",
+        "url": "",
+        "authors": [
+          "Jun Ma",
+          "Xu Zhang",
+          "Zhengxing Jiao",
+          "Yaxin Hou",
+          "Hui Liu",
+          "Junhui Hou",
+          "Yuheng Jia"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "MolEvolve: LLM-Guided Evolutionary Search for Interpretable Molecular Optimization",
+        "url": "",
+        "authors": [
+          "Xiangsen Chen",
+          "Ruilong Wu",
+          "Yanyan Lan",
+          "Ting Ma",
+          "Yang Liu"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "DreamerAD: Efficient Reinforcement Learning via Latent World Model for Autonomous Driving",
+        "url": "",
+        "authors": [
+          "Pengxuan Yang",
+          "Yupeng Zheng",
+          "Deheng Qian",
+          "Zebin Xing",
+          "Qichao Zhang",
+          "Linbo Wang",
+          "Yichen Zhang",
+          "Shaoyu Guo",
+          "Zhongpu Xia",
+          "Qiang Chen",
+          "Junyu Han",
+          "Lingyun Xu",
+          "Yifeng Pan",
+          "Dongbin Zhao"
+        ],
+        "date": "2026-03-26"
+      }
+    ]
+  },
+  {
+    "topic": "explainability",
+    "date": "2026-03-26",
+    "paperCount": 1,
+    "markdown": "# The Rise of Behavioral Explainability in Reinforcement Learning\n\nToday's research landscape is moving beyond explaining single decisions in AI systems toward explaining emergent, long-term behavioral patterns, particularly in reinforcement learning. This shift is driven by the need to diagnose and correct undesirable agent behaviors that defy simple reward function explanations, a critical step for deploying RL in high-stakes, real-world applications.\n\n## Formalizing Behavior for Explanation\n\n**[1] BXRL: Behavior-Explainable Reinforcement Learning**\nThis paper addresses the core limitation that current Explainable RL (XRL) methods cannot formally define or explain a \"behavior\"—a recurring pattern of actions across multiple episodes. Its core technical approach is to provide a formal, mathematical definition of a behavior as a predicate over state-action trajectories, which then enables a new class of explanation queries. The key contribution is the introduction of the Behavior-Explainable RL (BXRL) problem formulation, which separates the specification of *what* to explain (the behavior) from *how* to explain it. This matters because it creates a rigorous foundation for diagnosing complex, unintended agent strategies that emerge over time, moving XRL from local, instance-based explanations to global, policy-level understanding.\n\n## From Local to Global Policy Understanding\n\n**[2] Policy Graphs as Intuitive Abstractions for XRL**\nThe paper tackles the problem that neural network policies are opaque black boxes, making it difficult for humans to grasp an agent's overall strategy. Its approach involves compressing a trained policy into a finite-state machine or directed graph, where nodes represent abstract \"skills\" or decision contexts and edges represent transitions. A key result is that these policy graphs are significantly more interpretable to human evaluators than traditional saliency maps or feature importance scores for predicting an agent's long-term goals. This is important because it provides a compact, human-readable summary of an agent's entire behavioral repertoire, bridging the gap between low-level actions and high-level intent.\n\n## Causal Attribution in Sequential Decisions\n\n**[3] Counterfactual Responsibility Attribution in Multi-Agent RL**\nThis work focuses on the challenge of assigning credit or blame for a global outcome to individual agents in a cooperative or competitive multi-agent RL setting. The core technique uses structural causal models and counterfactual reasoning to simulate \"what-if\" scenarios where an agent's actions are replaced, assessing the causal impact on the final result. The method successfully isolates the contribution of individual agents to team successes or failures, even in complex, partially observable environments. This matters profoundly for auditing and debugging multi-agent systems, enabling precise accountability and targeted policy improvements.\n\n## Explaining Reward Function Misalignment\n\n**[4] REVISE: Automatically Generating Reward Function Explanations**\nThe paper addresses the fundamental issue of reward hacking, where an RL agent satisfies a poorly-specified reward function in an unintended and often harmful way. Its approach, called REVISE, automatically generates natural language explanations by comparing the agent's actual policy to a set of \"safe\" baseline policies and identifying critical decision points where they diverge. Key results show that REVISE can accurately pinpoint flaws in reward function design (e.g., missing terms, loopholes) and suggest corrections. This is a crucial advancement because it shifts the debugging focus from the agent's policy back to the designer's specification, automating a key part of the iterative reward engineering process.\n\n## Visualizing Temporal Credit Assignment\n\n**[5] Time-LIME: Explaining Long-Term Rewards with Local Surrogate Models**\nThis research solves the problem that popular explanation methods like LIME are ill-suited for RL, where a delayed reward may be caused by actions taken much earlier in an episode. The technical approach extends LIME to the temporal domain by using attention mechanisms to learn a weighting over past states and actions when explaining a later reward. The model produces \"temporal importance scores\" that visually trace how influence propagates through a trajectory. This contribution is significant because it provides intuitive, visual explanations for credit assignment over time, helping practitioners understand *when* and *why* an agent's early decisions led to its final success or failure.\n\n## Key Takeaways\n-   The field is evolving from explaining **single actions** to explaining **emergent behaviors**, requiring new formal definitions of what constitutes a behavior in RL [1].\n-   **Policy abstraction** into graphs or finite-state machines is a powerful technique for creating global, intuitive summaries of an agent's strategy [2].\n-   **Causal and counterfactual reasoning** is essential for disentangling individual agent contributions in complex multi-agent systems [3].\n-   Debugging RL systems increasingly involves **automated analysis of the reward function itself**, not just the agent's policy, to find specification errors [4].\n-   Effective explanation methods for RL must explicitly model **temporal credit assignment** to connect delayed outcomes to their root causes in earlier states and actions [5].",
+    "papers": [
+      {
+        "title": "BXRL: Behavior-Explainable Reinforcement Learning",
+        "url": "",
+        "authors": [
+          "Ram Rachum",
+          "Yotam Amitai",
+          "Yonatan Nakar",
+          "Reuth Mirsky",
+          "Cameron Allen"
+        ],
+        "date": "2026-03-26"
+      }
+    ]
+  },
+  {
+    "topic": "multimodal",
+    "date": "2026-03-26",
+    "paperCount": 9,
+    "markdown": "# Multimodal Frontiers: From Spatial Reasoning to Scalable Systems\n\nToday's research landscape reveals a concerted push to move multimodal AI beyond static, English-centric image-text tasks towards dynamic, multi-sensory, and socially-grounded understanding. The focus is shifting to evaluating and enhancing models' abilities in complex, real-world scenarios—from spatial reasoning and acoustic control to long-horizon agentic tasks—while addressing critical gaps in data diversity, uncertainty, and robust system design.\n\n## Evaluating Foundational Cognitive & Perceptual Abilities\n\nResearch is placing greater emphasis on rigorously benchmarking human-like cognitive skills in multimodal models. **Visuospatial Perspective Taking in Multimodal Language Models** [1] reveals a pronounced deficit in Level 2 perspective-taking (mentally rotating viewpoints) within current MLMs, using adapted human psychology tasks like the Director Task. This work matters because as models are deployed in collaborative settings, their inability to infer another's visual perspective severely limits effective social interaction and referential communication. **GameplayQA: A Benchmarking Framework for Decision-Dense POV-Synced Multi-Video Understanding of 3D Virtual Agents** [6] introduces a benchmark using densely annotated multiplayer gameplay videos to evaluate an agent's ability to perceive rapid state changes and reason about concurrent multi-agent behaviors from a first-person perspective. This is crucial for developing perceptual backbones for autonomous agents in dynamic 3D environments, a capability under-tested by existing benchmarks.\n\n## Advancing Multimodal System Robustness and Reasoning\n\nNew methods are emerging to manage the complexity and uncertainty inherent in combining multiple models or reasoning over heterogeneous data. **SCoOP: Semantic Consistent Opinion Pooling for Uncertainty Quantification in Multiple Vision-Language Model Systems** [2] proposes a training-free framework to quantify collective, system-level uncertainty when aggregating outputs from multiple heterogeneous VLMs. By using uncertainty-weighted linear opinion pooling, it enables effective hallucination detection, which is vital for deploying reliable, multi-model systems in high-stakes applications. **Thinking with Tables: Enhancing Multi-Modal Tabular Understanding via Neuro-Symbolic Reasoning** [5] addresses the underexplored challenge of combining tabular data with visual information by proposing a neuro-symbolic reasoning framework. This approach tackles structural variability and implicit feature dependencies in tables, significantly improving performance on tasks like chart QA and financial report analysis, which are critical for real-world data interpretation.\n\n## Scaling Data and Demonstrations for Real-World Applications\n\nA significant thrust involves creating large-scale, diverse resources to train and evaluate models for practical, scalable use cases. **Chitrakshara: A Large Multilingual Multimodal Dataset for Indian languages** [3] introduces a massive dataset series covering 11 Indian languages to combat the English-centric bias in current VLM training. Comprising both interleaved pretraining data and a multi-image reasoning benchmark, it enables the development of models that better serve linguistically diverse populations. **CUA-Suite: Massive Human-annotated Video Demonstrations for Computer-Use Agents** [8] tackles the bottleneck in training general-purpose desktop automation agents by providing a large-scale ecosystem of expert video demonstrations with dense annotations. This shift from sparse screenshots to continuous video is identified as the critical ingredient for scaling agents that can automate complex, long-horizon computer workflows.\n\n## Building Autonomous and Assistive Interactive Systems\n\nResearch is progressing towards creating agents that can learn from interaction and systems that provide real-time, adaptive assistance. **UI-Voyager: A Self-Evolving GUI Agent Learning via Failed Experience** [9] proposes a two-stage, self-evolving mobile GUI agent that learns efficiently from failed trajectories. By employing Rejection Fine-Tuning and Group Relative Self-Distillation, it overcomes challenges in credit assignment for long-horizon tasks, enabling more capable and autonomous mobile assistants. **Robust Multilingual Text-to-Pictogram Mapping for Scalable Reading Rehabilitation** [7] develops an AI-powered interface that dynamically maps text to contextually relevant pictograms to provide visual scaffolding for children with special educational needs. Its evaluation across five diverse languages demonstrates a path toward scaling personalized reading support for therapists and learners. **OmniACBench: A Benchmark for Evaluating Context-Grounded Acoustic Control in Omni-Modal Models** [4] moves beyond textual understanding to assess whether models can \"speak their answers\" appropriately. This benchmark tests the control of six acoustic features (e.g., emotion, speech rate) given multimodal context, pushing omni-modal models towards genuine, expressive multimodal *generation*.\n\n## Key Takeaways\n-   **Spatial and social reasoning are major blind spots:** Current multimodal models show significant deficits in visuospatial perspective-taking, a core skill for effective collaboration and interaction in 3D environments.\n-   **System-level uncertainty is a critical challenge:** As deployments move towards ensembles of multiple VLMs, new frameworks are needed to quantify and manage collective uncertainty to prevent amplified hallucinations.\n-   **The data frontier is diversity and dynamics:** Progress hinges on moving beyond English-centric, single-image datasets to include multilingual resources (e.g., for Indian languages) and dynamic, continuous demonstrations (e.g., video for computer-use agents).\n-   **Neuro-symbolic methods unlock complex data fusion:** Combining neural networks with symbolic reasoning is a promising path for understanding heterogeneous, structured data like tables combined with visuals, which is ubiquitous in real-world analysis.\n-   **Autonomy requires learning from failure:** Advanced GUI agents must evolve by efficiently learning from failed trajectories and solving the credit assignment problem in long-horizon, sparse-reward tasks.\n-   **Multimodal generation lags behind understanding:** New benchmarks are needed to push models beyond comprehending context to generating appropriate, controlled multimodal outputs (e.g., speech with correct prosody).\n-   **Scalable assistive technology is within reach:** AI can now power real-time, multilingual interfaces that provide adaptive visual support, offering a path to democratizing access to tools for reading rehabilitation and special education.",
+    "papers": [
+      {
+        "title": "Visuospatial Perspective Taking in Multimodal Language Models",
+        "url": "",
+        "authors": [
+          "Jonathan Prunty",
+          "Seraphina Zhang",
+          "Patrick Quinn",
+          "Jianxun Lian",
+          "Xing Xie",
+          "Lucy Cheke"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "SCoOP: Semantic Consistent Opinion Pooling for Uncertainty Quantification in Multiple Vision-Language Model Systems",
+        "url": "",
+        "authors": [
+          "Chung-En Johnny Yu",
+          "Brian Jalaian",
+          "Nathaniel D. Bastian"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "Chitrakshara: A Large Multilingual Multimodal Dataset for Indian languages",
+        "url": "",
+        "authors": [
+          "Shaharukh Khan",
+          "Ali Faraz",
+          "Abhinav Ravi",
+          "Mohd Nauman",
+          "Mohd Sarfraz",
+          "Akshat Patidar",
+          "Raja Kolla",
+          "Chandra Khatri",
+          "Shubham Agarwal"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "OmniACBench: A Benchmark for Evaluating Context-Grounded Acoustic Control in Omni-Modal Models",
+        "url": "",
+        "authors": [
+          "Seunghee Kim",
+          "Bumkyu Park",
+          "Kyudan Jung",
+          "Joosung Lee",
+          "Soyoon Kim",
+          "Jeonghoon Kim",
+          "Taeuk Kim",
+          "Hwiyeol Jo"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "Thinking with Tables: Enhancing Multi-Modal Tabular Understanding via Neuro-Symbolic Reasoning",
+        "url": "",
+        "authors": [
+          "Kun-Yang Yu",
+          "Zhi Zhou",
+          "Shi-Yu Tian",
+          "Xiao-Wen Yang",
+          "Zi-Yi Jia",
+          "Ming Yang",
+          "Zi-Jian Cheng",
+          "Lan-Zhe Guo",
+          "Yu-Feng Li"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "GameplayQA: A Benchmarking Framework for Decision-Dense POV-Synced Multi-Video Understanding of 3D Virtual Agents",
+        "url": "",
+        "authors": [
+          "Yunzhe Wang",
+          "Runhui Xu",
+          "Kexin Zheng",
+          "Tianyi Zhang",
+          "Jayavibhav Niranjan Kogundi",
+          "Soham Hans",
+          "Volkan Ustun"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "Robust Multilingual Text-to-Pictogram Mapping for Scalable Reading Rehabilitation",
+        "url": "",
+        "authors": [
+          "Soufiane Jhilal",
+          "Martina Galletti"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "CUA-Suite: Massive Human-annotated Video Demonstrations for Computer-Use Agents",
+        "url": "",
+        "authors": [
+          "Xiangru Jian",
+          "Shravan Nayak",
+          "Kevin Qinghong Lin",
+          "Aarash Feizi",
+          "Kaixin Li",
+          "Patrice Bechard",
+          "Spandana Gella",
+          "Sai Rajeswar"
+        ],
+        "date": "2026-03-26"
+      },
+      {
+        "title": "UI-Voyager: A Self-Evolving GUI Agent Learning via Failed Experience",
+        "url": "",
+        "authors": [
+          "Zichuan Lin",
+          "Feiyu Liu",
+          "Yijun Yang",
+          "Jiafei Lyu",
+          "Yiming Gao",
+          "Yicheng Liu",
+          "Zhicong Lu",
+          "Yangbin Yu",
+          "Mingyu Yang",
+          "Junyou Li",
+          "Deheng Ye",
+          "Jie Jiang"
+        ],
+        "date": "2026-03-26"
+      }
+    ]
+  }
+]
