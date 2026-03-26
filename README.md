@@ -121,10 +121,10 @@ In addition to server-generated digests, you can generate a digest on demand dir
 A slide-in panel (gear icon, top-right) lets you configure everything without leaving the page:
 
 - **AI API** — base URL, API key, and model name (any OpenAI-compatible endpoint)
-- **GitHub Token** — optional personal access token to raise the GitHub API rate limit for paper data fetching
+- **GitHub Token** — a personal access token with write access to your repository. Required for saving AI-generated summaries back to the data branch and for managing topic subscriptions. Without it, AI analysis is generated but not persisted — it will be lost on page reload.
 - **Topics** — add, rename, or delete research topic tags and manage their keyword sets
 
-All settings are stored in `localStorage` in your browser. Nothing is transmitted except to your AI endpoint.
+All settings are stored in `localStorage` in your browser. Nothing is transmitted except to your AI endpoint and the GitHub API.
 
 ### Optional Password Protection
 
@@ -245,8 +245,44 @@ A "Today's Digest" section appears at the top when server-generated digests are 
 
 1. Click the **gear icon** (top-right) to open Settings.
 2. Under **AI Settings**, enter your API base URL, API key, and model name.
-3. Optionally add a **GitHub Token** (read-only, `public_repo` scope) to avoid rate limits when loading many dates of paper data.
+3. Add a **GitHub Token** with write access to your repository (see [GitHub Token](#github-token) below). This is needed to save AI summaries and topic subscriptions back to the data branch.
 4. Under **Topics**, add research topics like "vision transformer" or "protein folding". The system will highlight matching papers and enable per-topic filtering.
+
+---
+
+## GitHub Token
+
+A GitHub personal access token is required for any operation that writes to your repository from the browser:
+
+- **Saving AI-generated summaries** — when you click "Generate AI Analysis" on a paper, the result is written back to the JSONL file on the `data` branch so it is available to all visitors and persists across page reloads.
+- **Managing topic subscriptions** — adding or removing topics in the Settings panel writes `subscription-topics.json` to the `data` branch.
+- **Deleting saved digests** — removing a server-generated digest from the UI sends a delete request to the GitHub Contents API.
+
+Without a token these actions still work locally in your session, but nothing is persisted to the repository.
+
+### How to create a fine-grained personal access token (recommended)
+
+Fine-grained tokens give the minimum required permissions:
+
+1. Go to **GitHub** → your avatar (top-right) → **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**.
+2. Click **Generate new token**.
+3. Set a **Token name** (e.g. `daily-arxiv-browser`).
+4. Under **Expiration**, choose a duration or select "No expiration".
+5. Under **Repository access**, select **Only select repositories** and choose your fork of this repo.
+6. Under **Permissions** → **Repository permissions**, set **Contents** to **Read and write**.
+7. Click **Generate token** and copy the token immediately (it is only shown once).
+8. Paste it into the **GitHub Token** field in the site's Settings panel.
+
+### How to create a classic personal access token (alternative)
+
+1. Go to **GitHub** → **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**.
+2. Click **Generate new token (classic)**.
+3. Set a note (e.g. `daily-arxiv-browser`) and an expiration.
+4. Under **Select scopes**, check **`public_repo`** (for a public repository) or **`repo`** (for a private repository).
+5. Click **Generate token** and copy it.
+6. Paste it into the **GitHub Token** field in the site's Settings panel.
+
+> The token is stored only in your browser's `localStorage` and is sent only to the GitHub API (`api.github.com`). It is never sent to your AI provider or anywhere else.
 
 ---
 
