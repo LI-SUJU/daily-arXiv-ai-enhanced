@@ -1443,6 +1443,10 @@ main {
   font-weight: 500;
 }
 
+/* When paper modal is opened from a digest — hide nav and exclude UI */
+.paper-modal.from-digest .paper-navigation,
+.paper-modal.from-digest #digestExcludeFooterBtn { display: none !important; }
+
 .paper-position {
   font-size: 14px;
   color: var(--text-secondary);

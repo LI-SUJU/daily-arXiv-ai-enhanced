@@ -1663,7 +1663,7 @@ function closeModal() {
   // 重置模态框的滚动位置
   modalBody.scrollTop = 0;
 
-  modal.classList.remove('active');
+  modal.classList.remove('active', 'from-digest');
   modal.style.zIndex = '';
   document.body.style.overflow = '';
 }
@@ -2421,14 +2421,16 @@ async function generateDigest() {
 
 // Open a paper from a digest reference click
 function openDigestPaper(paper) {
+  const modal = document.getElementById('paperModal');
   // Raise z-index first so modal appears above digest overlays from the start
-  document.getElementById('paperModal').style.zIndex = '10500';
+  modal.style.zIndex = '10500';
+  // Mark as opened from digest — hides nav/exclude UI via CSS
+  modal.classList.add('from-digest');
 
-  // Try currentFilteredPapers first (preserves navigation state)
+  // Try currentFilteredPapers for a full paper object
   const idx = currentFilteredPapers.findIndex(p => p.id === paper.id || (p.url && p.url === paper.url));
   if (idx !== -1) {
-    currentPaperIndex = idx;
-    showPaperDetails(currentFilteredPapers[idx], idx + 1);
+    showPaperDetails(currentFilteredPapers[idx], null);
     return;
   }
 
