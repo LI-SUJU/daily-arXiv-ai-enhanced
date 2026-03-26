@@ -342,7 +342,7 @@ function showConfigRequiredModal(type) {
       </div>
       <p>Once configured, AI features will be available for generating paper summaries and research digests.</p>
       <div class="config-required-actions">
-        <a href="settings.html">Go to Settings</a>
+        <a href="#" onclick="closeConfigRequiredModal();openSettingsPanel();return false;">Go to Settings</a>
       </div>`;
   } else if (type === 'save') {
     content.innerHTML = `
