@@ -845,8 +845,8 @@ function navigateDay(direction) {
   if (!currentDate || !availableDates.length || currentDate.includes(',') || currentDate.includes(' to ')) return;
   const idx = availableDates.indexOf(currentDate);
   if (idx === -1) return;
-  // availableDates is sorted newest-first, so direction=-1 goes to newer, +1 goes to older
-  const nextIdx = idx + direction;
+  // availableDates is sorted newest-first, so +1 index = older date; invert so direction matches arrow
+  const nextIdx = idx - direction;
   if (nextIdx < 0 || nextIdx >= availableDates.length) return;
   loadPapersByDate(availableDates[nextIdx]);
 }
