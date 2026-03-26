@@ -527,7 +527,7 @@ function initEventListeners() {
     // 左右箭头键导航论文（仅在论文模态框打开时）
     else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       const paperModal = document.getElementById('paperModal');
-      if (paperModal.classList.contains('active') && !isInputFocused) {
+      if (paperModal.classList.contains('active') && !isInputFocused && !paperModal.classList.contains('from-digest')) {
         event.preventDefault();
         event.stopPropagation();
         if (event.key === 'ArrowLeft') {
@@ -1931,7 +1931,9 @@ Requirements:
 
 function formatAuthorsShort(authors) {
   if (!authors) return '';
-  const parts = authors.split(',').map(s => s.trim()).filter(Boolean);
+  const parts = Array.isArray(authors)
+    ? authors.map(s => String(s).trim()).filter(Boolean)
+    : String(authors).split(',').map(s => s.trim()).filter(Boolean);
   if (parts.length <= 2) return parts.join(', ');
   return `${parts[0]}, ${parts[1]} et al.`;
 }
@@ -2420,7 +2422,7 @@ async function generateDigest() {
 }
 
 // Open a paper from a digest reference click
-function openDigestPaper(paper) {
+async function openDigestPaper(paper) {
   const modal = document.getElementById('paperModal');
   // Raise z-index first so modal appears above digest overlays from the start
   modal.style.zIndex = '10500';
@@ -2434,15 +2436,30 @@ function openDigestPaper(paper) {
     return;
   }
 
-  // Fall back to all loaded paperData (paper may be filtered out or from a different date)
-  let fullPaper = paper;
+  // Fall back to all loaded paperData (paper may be filtered out)
   if (typeof paperData !== 'undefined' && paperData) {
     for (const cat of Object.values(paperData)) {
       const found = cat.find(p => p.id === paper.id || (p.url && p.url === paper.url));
-      if (found) { fullPaper = found; break; }
+      if (found) { showPaperDetails(found, null); return; }
     }
   }
-  showPaperDetails(fullPaper, null);
+
+  // If paper has a date, fetch that date's JSONL to get the full object
+  if (paper.date) {
+    try {
+      const res = await fetch(getDataUrlForDate(paper.date), { cache: 'no-store' });
+      if (res.ok) {
+        const dataPapers = parseJsonlData(await res.text(), paper.date);
+        for (const cat of Object.values(dataPapers)) {
+          const found = cat.find(p => p.id === paper.id || (p.url && p.url === paper.url));
+          if (found) { showPaperDetails(found, null); return; }
+        }
+      }
+    } catch (e) { /* ignore fetch error, fall through */ }
+  }
+
+  // Last resort: show the truncated object we have
+  showPaperDetails(paper, null);
 }
 
 // Wire up citation and reference clicks in a rendered digest container
