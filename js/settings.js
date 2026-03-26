@@ -25,6 +25,7 @@ function closeSettingsPanel() {
 // 初始化设置，从localStorage加载已保存的设置
 function initSettings() {
   loadAiSettings();
+  initThemeUI();
 }
 
 function loadAiSettings() {
@@ -236,4 +237,59 @@ async function fetchGitHubStats() {
     document.getElementById('starCount').textContent = '?';
     document.getElementById('forkCount').textContent = '?';
   }
-} 
+}
+
+// ── Theme system ──────────────────────────────────────────────────────────────
+
+const THEMES = ['purple', 'ocean', 'rose', 'forest', 'amber'];
+
+function applyTheme(theme, dark) {
+  const root = document.documentElement;
+  // Remove all theme attrs first
+  THEMES.forEach(t => root.removeAttribute('data-theme-' + t));
+  if (theme && theme !== 'purple') root.setAttribute('data-theme', theme);
+  else root.removeAttribute('data-theme');
+  root.setAttribute('data-dark', dark ? 'true' : 'false');
+}
+
+function loadTheme() {
+  const theme = localStorage.getItem('colorTheme') || 'purple';
+  const dark  = localStorage.getItem('darkMode') === 'true';
+  applyTheme(theme, dark);
+}
+
+function initThemeUI() {
+  const theme = localStorage.getItem('colorTheme') || 'purple';
+  const dark  = localStorage.getItem('darkMode') === 'true';
+
+  // Highlight active swatch
+  document.querySelectorAll('.theme-swatch').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === theme);
+    btn.addEventListener('click', () => {
+      localStorage.setItem('colorTheme', btn.dataset.theme);
+      applyTheme(btn.dataset.theme, localStorage.getItem('darkMode') === 'true');
+      document.querySelectorAll('.theme-swatch').forEach(b => b.classList.toggle('active', b === btn));
+    });
+  });
+
+  // Dark mode toggle state
+  const toggle = document.getElementById('darkModeToggle');
+  const label  = document.getElementById('darkModeLabel');
+  if (toggle && label) {
+    toggle.classList.toggle('on', dark);
+    label.textContent = dark ? 'On' : 'Off';
+  }
+}
+
+function toggleDarkMode() {
+  const dark = localStorage.getItem('darkMode') !== 'true';
+  localStorage.setItem('darkMode', dark);
+  applyTheme(localStorage.getItem('colorTheme') || 'purple', dark);
+  const toggle = document.getElementById('darkModeToggle');
+  const label  = document.getElementById('darkModeLabel');
+  if (toggle) toggle.classList.toggle('on', dark);
+  if (label)  label.textContent = dark ? 'On' : 'Off';
+}
+
+// Apply theme immediately on script load (before DOMContentLoaded) to avoid flash
+loadTheme();

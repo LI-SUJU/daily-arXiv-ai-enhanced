@@ -14,6 +14,15 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script>
 
+    <!-- Apply theme before render to avoid flash -->
+    <script>
+      (function(){
+        var t = localStorage.getItem('colorTheme') || 'purple';
+        var d = localStorage.getItem('darkMode') === 'true';
+        if (t && t !== 'purple') document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.setAttribute('data-dark', d ? 'true' : 'false');
+      })();
+    </script>
     <!-- Authentication Scripts -->
     <script src="js/auth-config.js"></script>
     <script src="js/auth.js"></script>
@@ -332,6 +341,28 @@
                                 <p id="githubVisitorNote" style="display:none;font-size:12px;color:#f59e0b;margin-top:6px;">GitHub token is not available in visitor mode.</p>
                                 <p style="font-size:12px;color:var(--text-secondary);margin-top:6px;">When set, AI content is written back to the data branch so it persists for everyone.</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h2 class="keyword-section-title" style="font-size:14px;margin-bottom:12px;">Appearance</h2>
+                    <div class="settings-card">
+                        <div class="settings-item" style="flex-direction:column;align-items:flex-start;gap:10px;">
+                            <label style="margin-bottom:2px;">Color Theme</label>
+                            <div class="theme-swatches" id="themeSwatches">
+                                <button class="theme-swatch" data-theme="purple" title="Purple" style="--swatch-a:#667eea;--swatch-b:#764ba2;"></button>
+                                <button class="theme-swatch" data-theme="ocean"  title="Ocean"  style="--swatch-a:#0ea5e9;--swatch-b:#0284c7;"></button>
+                                <button class="theme-swatch" data-theme="rose"   title="Rose"   style="--swatch-a:#f43f5e;--swatch-b:#e11d48;"></button>
+                                <button class="theme-swatch" data-theme="forest" title="Forest" style="--swatch-a:#10b981;--swatch-b:#059669;"></button>
+                                <button class="theme-swatch" data-theme="amber"  title="Amber"  style="--swatch-a:#f59e0b;--swatch-b:#d97706;"></button>
+                            </div>
+                        </div>
+                        <div class="settings-item" style="margin-top:4px;">
+                            <label>Dark Mode</label>
+                            <button id="darkModeToggle" class="theme-dark-toggle" onclick="toggleDarkMode()">
+                                <span class="dark-toggle-track"><span class="dark-toggle-thumb"></span></span>
+                                <span id="darkModeLabel">Off</span>
+                            </button>
                         </div>
                     </div>
                 </div>
