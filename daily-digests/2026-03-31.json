@@ -1,0 +1,502 @@
+[
+  {
+    "topic": "interpretability",
+    "date": "2026-03-31",
+    "paperCount": 10,
+    "markdown": "# The Interpretability Frontier: From Uncertainty Quantification to Structured Reasoning\n\nToday's research landscape demonstrates a clear shift from generating static, post-hoc explanations towards building inherently interpretable systems that integrate uncertainty, physical laws, and structured reasoning. A strong thematic focus is on creating trustworthy, actionable AI for high-stakes domains like medicine and education by embedding interpretability directly into the model's architecture and decision process.\n\n## Uncertainty as a Core Component of Trustworthy Explanations\n\n**[1] \"Concerning Uncertainty – A Systematic Survey of Uncertainty-Aware XAI\"** systematically maps the emerging field of uncertainty-aware explainable AI (UAXAI). It identifies three dominant technical approaches for quantification—Bayesian, Monte Carlo, and Conformal methods—and categorizes strategies for integrating uncertainty into explanations, such as assessing trustworthiness or explicitly communicating it to users. The survey reveals that evaluation practices remain fragmented and overly model-centered, highlighting a critical gap in user-centric assessment. This work matters because it provides a necessary framework for moving beyond deterministic explanations, which is essential for deploying reliable AI in real-world, ambiguous scenarios.\n\n**[3] \"Conformalized Signal Temporal Logic Inference under Covariate Shift\"** addresses a key weakness in learning interpretable temporal logic rules: the common assumption of identically distributed data. The paper proposes a conformalized STL inference framework designed to maintain statistical guarantees even under covariate shift between training and deployment environments. Its core technical contribution is adapting conformal prediction to provide uncertainty-quantified, logically interpretable formulas that remain valid when data distributions change. This is crucial for applying formal, explainable methods to real-world dynamical systems like autonomous vehicles or medical monitoring, where distribution shifts are the norm, not the exception.\n\n## Embedding Physical and Clinical Knowledge for Inherent Interpretability\n\n**[2] \"A Comparative Investigation of Thermodynamic Structure-Informed Neural Networks\"** investigates how different formulations of physical laws affect the performance and consistency of Physics-Informed Neural Networks (PINNs). It conducts a systematic comparison of incorporating thermodynamic structures, from Newtonian/Lagrangian mechanics for conservative systems to the Onsager principle for dissipative ones. The key contribution is a detailed analysis of how these choices influence the network's ability to solve forward and inverse problems while adhering to physical constraints. This work matters for interpretability because embedding the correct inductive bias not only improves accuracy but also ensures the model's behavior is grounded in and explainable by established scientific principles.\n\n**[9] \"Physics-Embedded Feature Learning for AI in Medical Imaging\"** tackles the black-box nature of deep learning in medical imaging by proposing PhysNet, a framework that integrates tumor growth physics directly into the feature learning process of a CNN. Unlike methods that apply physical constraints only as a loss function, PhysNet embeds a reaction-diffusion model within the network's latent space, guiding it to learn features consistent with known biophysics. This leads to more interpretable and robust features that clinicians can potentially trust, as they are anchored in the underlying disease dynamics rather than opaque statistical correlations.\n\n**[10] \"Detecting low left ventricular ejection fraction from ECG using an interpretable and scalable predictor-driven framework\"** addresses the trade-off between performance and interpretability in AI-ECG analysis. The authors introduce ECGPD-LEF, a framework that uses a foundation model to extract diagnostic prompts from raw ECG signals, which are then processed by a predictor model for final detection. This approach moves beyond pure end-to-end black boxes, creating a structured pipeline where intermediate \"prompts\" (e.g., \"low voltage QRS complexes\") provide a transparent, clinically-aligned rationale for the model's prediction. It matters because it offers a scalable screening tool whose reasoning is more accessible to cardiologists, facilitating clinical adoption.\n\n## Advancing Counterfactual Explanations for Complex Data\n\n**[5] \"Improving Clinical Diagnosis with Counterfactual Multi-Agent Reasoning\"** argues that most LLM-based diagnostic agents lack the interpretable, differential reasoning of human clinicians. To address this, the paper proposes a multi-agent framework where specialized agents (e.g., for evidence gathering, hypothesis generation) engage in explicit counterfactual questioning, mimicking the \"what-if\" reasoning used in medical training. This structured approach forces the system to consider alternative explanations, making the final diagnostic recommendation more robust and its justification more transparent. It is significant for building trustworthy AI assistants that can articulate not just an answer, but the reasoning process and alternatives behind it.\n\n**[7] \"What-If Explanations Over Time: Counterfactuals for Time Series Classification\"** provides a comprehensive survey of counterfactual explanation methods for time series data. It reviews a wide range of algorithms, including instance-based, pattern-driven, gradient-based, and generative models, analyzing their methodologies and applicable classifiers. The work organizes a fragmented field, clarifying how different techniques generate minimal, plausible changes to a temporal input to flip a model's prediction. This synthesis is vital as time series data is ubiquitous in critical domains (finance, healthcare), and counterfactuals offer a particularly intuitive form of explanation for sequential decisions.\n\n## Architecting Systems for Deliberate, Interpretable Reasoning\n\n**[4] \"Beyond the Answer: Decoding the Behavior of LLMs as Scientific Reasoners\"** posits that understanding the emergent reasoning processes of LLMs is crucial for long-term interpretability and safety. The study uses a custom Genetic Pareto optimization to systematically generate and evaluate prompts for scientific reasoning tasks, analyzing how different prompts modulate the model's internal problem-solving heuristics. Its core contribution is a methodology for probing and characterizing the \"how\" behind an LLM's answer, not just the answer itself. This matters because as LLMs approach more complex reasoning, interpreting their internal processes becomes as important as evaluating their outputs.\n\n**[6] \"SLOW: Strategic Logical-inference Open Workspace for Cognitive Adaptation in AI Tutoring\"** identifies a key limitation in current LLM-based tutors: their reliance on fast, intuitive \"System 1\" generation conflates diagnosis, strategy, and response. The proposed SLOW framework introduces a dedicated reasoning workspace that separates cognitive diagnosis, affective perception, and pedagogical planning into distinct, logical modules. This \"System 2\" inspired architecture allows for deliberate, step-by-step reasoning about the learner's state and the optimal teaching action, making the tutor's adaptations more interpretable and pedagogically sound. It represents a move towards AI systems whose decision-making is structured and auditable.\n\n**[8] \"Principal Prototype Analysis on Manifold for Interpretable Reinforcement Learning\"** addresses the scarcity of interpretability methods designed for the sequential decision-making of Reinforcement Learning (RL). The paper proposes extending prototype-based explanation methods—common in vision and NLP—to the RL domain by performing principal prototype analysis on the manifold of the agent's learned representations. This technique aims to identify and visualize canonical, interpretable states or trajectories that exemplify the agent's policy. It is important for demystifying the behavior of complex RL agents, especially as they are increasingly used in alignment and fine-tuning of other models like LLMs.\n\n## Key Takeaways\n-   **Uncertainty is non-negotiable for trustworthy XAI:** The field is converging on methods (Bayesian, Conformal) to quantify and communicate uncertainty within explanations, which is critical for deployment in real-world, noisy environments where confidence matters as much as the explanation itself.\n-   **Inherent interpretability is achieved through structural constraints:** A powerful trend involves building interpretability directly into architectures via embedded physics, clinical knowledge frameworks, or structured multi-agent reasoning, moving beyond post-hoc analysis of black-box models.\n-   **Counterfactuals are a leading paradigm for actionable insight:** Particularly for high-stakes domains like medicine and time-series analysis, \"what-if\" explanations are valued for providing actionable, user-centric understanding of model decisions by illustrating minimal changes for a different outcome.\n-   **Complex AI systems require dedicated reasoning workspaces:** For tasks like tutoring or diagnosis, separating intuitive generation from deliberate, modular reasoning (a \"System 2\" approach) is key to producing interpretable, adaptable, and auditable decision processes.\n-   **Interpretability must generalize across data types and tasks:** Research is actively adapting explanation methods (e.g., prototypes, conformal prediction) from static domains like images to dynamic, sequential domains like reinforcement learning and temporal logic, ensuring tools keep pace with model capabilities.\n-   **The evaluation of explanations remains a critical challenge:** As noted in the UAXAI survey, assessment is fragmented and lacks user-centric standards, indicating a major area for future work to ensure explanatory methods are truly effective and useful.\n-   **Prompting is a powerful lens for interpreting LLM reasoning:** Systematic analysis of how prompts modulate internal heuristics is emerging as a vital technique for understanding the emergent reasoning of large language models, linking interface design to interpretability.",
+    "papers": [
+      {
+        "title": "Concerning Uncertainty -- A Systematic Survey of Uncertainty-Aware XAI",
+        "url": "",
+        "authors": [
+          "Helena Löfström",
+          "Tuwe Löfström",
+          "Anders Hjort",
+          "Fatima Rabia Yapicioglu"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "A Comparative Investigation of Thermodynamic Structure-Informed Neural Networks",
+        "url": "",
+        "authors": [
+          "Guojie Li",
+          "Liu Hong"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Conformalized Signal Temporal Logic Inference under Covariate Shift",
+        "url": "",
+        "authors": [
+          "Yixuan Wang",
+          "Danyang Li",
+          "Matthew Cleaveland",
+          "Roberto Tron",
+          "Mingyu Cai"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Beyond the Answer: Decoding the Behavior of LLMs as Scientific Reasoners",
+        "url": "",
+        "authors": [
+          "Rohan Pandey",
+          "Eric Ye",
+          "Michael Li"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Improving Clinical Diagnosis with Counterfactual Multi-Agent Reasoning",
+        "url": "",
+        "authors": [
+          "Zhiwen You",
+          "Xi Chen",
+          "Aniket Vashishtha",
+          "Simo Du",
+          "Gabriel Erion-Barner",
+          "Hongyuan Mei",
+          "Hao Peng",
+          "Yue Guo"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "SLOW: Strategic Logical-inference Open Workspace for Cognitive Adaptation in AI Tutoring",
+        "url": "",
+        "authors": [
+          "Yuang Wei",
+          "Ruijia Li",
+          "Bo Jiang"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "What-If Explanations Over Time: Counterfactuals for Time Series Classification",
+        "url": "",
+        "authors": [
+          "Udo Schlegel",
+          "Thomas Seidl"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Principal Prototype Analysis on Manifold for Interpretable Reinforcement Learning",
+        "url": "",
+        "authors": [
+          "Bodla Krishna Vamshi",
+          "Haizhao Yang"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Physics-Embedded Feature Learning for AI in Medical Imaging",
+        "url": "",
+        "authors": [
+          "Pulock Das",
+          "Al Amin",
+          "Kamrul Hasan",
+          "Rohan Thompson",
+          "Azubike D. Okpalaeze",
+          "Liang Hong"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Detecting low left ventricular ejection fraction from ECG using an interpretable and scalable predictor-driven framework",
+        "url": "",
+        "authors": [
+          "Ya Zhou",
+          "Tianxiang Hao",
+          "Ziyi Cai",
+          "Haojie Zhu",
+          "Hejun He",
+          "Jia Liu",
+          "Xiaohan Fan",
+          "Jing Yuan"
+        ],
+        "date": "2026-03-31"
+      }
+    ]
+  },
+  {
+    "topic": "explainability",
+    "date": "2026-03-31",
+    "paperCount": 3,
+    "markdown": "# The Interpretability Imperative: From Prototypes to Causal Foundations\n\nToday's research landscape demonstrates a clear pivot from creating post-hoc explanations for black-box models to architecting inherently interpretable systems, with a strong emphasis on grounding explanations in causal reasoning and robust, structured representations. The field is converging on the idea that true explainability requires moving beyond visualization techniques and towards frameworks that align with human-understandable concepts and causal mechanisms.\n\n## Inherent Interpretability in Complex Decision Systems\n\n**Principal Prototype Analysis on Manifold for Interpretable Reinforcement Learning** [1] addresses the critical challenge of understanding the decision-making process in complex Reinforcement Learning (RL) agents, where traditional explainability methods from vision or NLP fall short. Its core technical approach is to learn a set of \"principal prototypes\" on a data manifold that represent fundamental, interpretable decision patterns or policies, allowing an agent's behavior to be explained by its proximity to these prototypes. This matters because it provides a global, intrinsic explanation framework for RL, moving beyond post-hoc analysis to build interpretability directly into the learning process, which is essential for deploying RL in high-stakes applications.\n\n## Multimodal & Robust Explanation for Security\n\n**ORACAL: A Robust and Explainable Multimodal Framework for Smart Contract Vulnerability Detection with Causal Graph Enrichment** [2] tackles the limitations of current Graph Neural Network (GNN) methods in smart contract analysis, which often lack semantic understanding, robustness, and explainability. The proposed ORACAL framework introduces a heterogeneous multimodal approach that enriches graph representations with causal reasoning, likely using techniques from Retrieval-Augmented Generation (RAG) to incorporate external knowledge. This contribution is significant as it provides auditors with trustworthy, explainable evidence for vulnerabilities by rooting detection in causal relationships within the code's control and data flow, directly addressing the need for reliability in security-critical domains.\n\n## A Foundational Shift Towards Causal Ground Truth\n\n**Position: Explainable AI is Causality in Disguise** [3] identifies the fundamental problem plaguing the XAI field: persistent discord due to conflicting metrics and a lack of consensus, stemming from the absence of a reliable ground truth for explanations. The paper's core position is that this discord arises not from a missing ground truth, but from a misidentified one—arguing that the true ground truth for explanation is *causality*. This matters profoundly because it suggests the entire fragmented landscape of XAI methods is implicitly seeking causal understanding, and a deliberate shift to formal causal frameworks could resolve longstanding debates over robustness, fairness, and validity.\n\n## Key Takeaways\n-   The frontier of explainability is shifting from *post-hoc* explanation tools to the design of *inherently interpretable* models, as seen in prototype-based RL [1] and causality-augmented GNNs [2].\n-   **Causality is emerging as the unifying foundational theory** for XAI, proposed as the necessary \"ground truth\" to resolve the field's fragmentation and validation crises [3].\n-   High-stakes application domains like cybersecurity [2] and autonomous decision-making [1] are driving the demand for robust, trustworthy explanations that are integral to the model, not just an add-on.\n-   Effective explanation increasingly requires **multimodal and structured representations**, such as heterogeneous graphs enriched with semantic and causal links [2], to capture complex system interactions.\n-   There is a concerted effort to bridge the gap between **local instance-based explanations** and **global model understanding**, with methods like manifold prototypes aiming to provide a coherent global picture of model behavior [1].",
+    "papers": [
+      {
+        "title": "Principal Prototype Analysis on Manifold for Interpretable Reinforcement Learning",
+        "url": "",
+        "authors": [
+          "Bodla Krishna Vamshi",
+          "Haizhao Yang"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "ORACAL: A Robust and Explainable Multimodal Framework for Smart Contract Vulnerability Detection with Causal Graph Enrichment",
+        "url": "",
+        "authors": [
+          "Tran Duong Minh Dai",
+          "Triet Huynh Minh Le",
+          "M. Ali Babar",
+          "Van-Hau Pham",
+          "Phan The Duy"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Position: Explainable AI is Causality in Disguise",
+        "url": "",
+        "authors": [
+          "Amir-Hossein Karimi"
+        ],
+        "date": "2026-03-31"
+      }
+    ]
+  },
+  {
+    "topic": "multimodal",
+    "date": "2026-03-31",
+    "paperCount": 26,
+    "markdown": "# The Multimodal Frontier: From Efficient Systems to Genuine Reasoning\n\nToday's research landscape is intensely focused on moving beyond superficial multimodal integration to develop systems capable of genuine, compositional reasoning and robust real-world deployment. A parallel and equally critical thrust aims to solve the practical bottlenecks of data scarcity, computational efficiency, and trustworthy evaluation that currently hinder progress.\n\n## Advancing the Mechanics of Multimodal Learning\n\nResearch is refining the core mechanisms by which models learn from and reason with multimodal data, addressing inefficiencies in training, inference, and continual adaptation. [1] tackles the sub-optimality of similarity-based in-context demonstration selection by reframing it as a sequential decision problem, training a Reinforcement Learning agent to construct optimal prompts for complex tasks. [17] addresses catastrophic forgetting in continual learning for Large Vision-Language Models by diagnosing and mitigating \"routing-drift\" in Mixture-of-Experts architectures, ensuring new experts do not incorrectly attract tokens from old tasks. For sample-efficient learning, [7] demonstrates that liquid neural networks with mixture density heads outperform diffusion policies in robotics imitation learning, achieving higher accuracy with fewer parameters and faster inference. Surveying the field, [24] provides a systematic taxonomy of techniques for accelerating the inference of Large Vision-Language Models, a critical barrier to their deployment. These works matter because they address foundational engineering challenges that determine whether advanced multimodal capabilities can be scaled and sustained efficiently.\n\n## Diagnosing and Ensuring Genuine Multimodal Understanding\n\nA significant thread of work exposes and rectifies the gap between high benchmark scores and authentic cross-modal reasoning, advocating for more rigorous evaluation. [4] introduces MazeBench to reveal that models achieving high accuracy on visual mazes do so via costly token-space enumeration, not genuine visual planning, highlighting a critical failure in spatial reasoning. Similarly, [12] identifies a \"choice-as-prior\" bias in scientific figure QA, where models are steered by textually plausible answers, and proposes contrastive decoding to force grounding in visual evidence. [18] delivers a sobering critique in clinical AI, showing that apparent performance gains from adding neuroimaging data are often driven by \"scaffold effects\" in prompt framing rather than genuine evidence integration. To elevate evaluation standards, [10] introduces CARV, a benchmark for compositional analogical reasoning that requires models to extract and combine symbolic rules from multiple visual examples. This research matters as it shifts the community's focus from chasing metrics to building models with robust, trustworthy understanding.\n\n## Building for Real-World, Data-Constrained Domains\n\nInnovative approaches are emerging to overcome the scarcity of high-quality, domain-specific multimodal data, which is a major bottleneck for specialization. [3] takes a foundational step by formalizing Federated MLLM Alignment, a lightweight pre-training paradigm that leverages distributed, private data silos without central collection, focusing on aligning frozen vision and language modules. In the electromagnetic domain, [14] proposes PReD, a foundation model trained on a newly constructed 1.3M-sample dataset, creating a closed-loop system for perception, recognition, and decision-making. For generative CAD design, [15] introduces GIFT, which bootstraps a training dataset for image-to-program synthesis by using a critic model to provide geometric feedback, iteratively improving data quality. In meteorology, [9] addresses data limitations by constructing MeteoCap-3B, a billion-scale captioned dataset, and a spectral-aware architecture for text-to-time-series generation. These contributions are vital for extending multimodal AI's benefits to specialized, data-sensitive fields beyond the public internet.\n\n## Architecting Systems for Complex Multimodal Workflows\n\nPapers are proposing novel frameworks to manage the complexity of orchestrating multimodal data flows and agentic systems for sophisticated tasks. [11] presents HeteroHub, a unified data management framework for heterogeneous multi-embodied agent systems, categorizing and handling static knowledge, training datasets, and high-frequency sensor streams. For deep research, a quintessential complex workflow, [19] introduces MiroEval, a benchmark that evaluates both the process and outcome of multimodal research agents on real-world, updatable tasks. [16] conceptualizes the evolution from LLMs to general-purpose agents, positioning \"deep research\" as a prototypical vertical application for multimodal, tool-using AI systems. In healthcare, [25] proposes the Graph Vector Field, a unified framework that models health risk from wearable data using vector-valued fields on time-varying simplicial complexes, integrating discrete differential geometry with mixture-of-experts. These works are crucial for transitioning from standalone models to reliable, scalable multimodal systems.\n\n## Enhancing Reasoning with Structured Feedback and Training\n\nNew training paradigms and decoding strategies are being developed to explicitly improve the coherence and reliability of multimodal reasoning chains. [20] introduces PRCO, a dual-reward system that co-evolves perception and reasoning modules separately, providing verifiable rewards for accurate visual evidence extraction alongside final-answer rewards to break the perception bottleneck. [2] proposes TED, a training-free experience distillation framework that shifts knowledge transfer from model parameters to in-context prompts, allowing a student model to learn from a teacher's reasoning traces without weight updates. For graph learning, [23] presents TMTE, a framework that jointly evolves both node features and graph topology in a task-aware manner, optimizing multimodal-attributed graphs for specific downstream objectives. In autonomous driving, [8] develops a dual-stage LLM framework for scenario-centric risk interpretation, using deterministic scenario windows and a closed numeric schema to enable reproducible auditing. These approaches matter because they instill more disciplined, transparent, and accurate reasoning processes in multimodal models.\n\n## Key Takeaways\n- **Benchmark Illusions are Pervasive:** High scores on multimodal tasks often mask brittle strategies like token-space enumeration [4] or are inflated by prompt scaffolding and textual priors [12, 18], demanding more rigorous evaluation of genuine cross-modal integration.\n- **Data Scarcity Drives Innovation:** Specialized domains are overcoming data limitations through federated pre-training [3], synthetic data bootstrapping with feedback [15], and the creation of large-scale, expert-curated datasets [9, 14].\n- **Efficiency is a Multi-Front Challenge:** Research is simultaneously optimizing in-context learning [1], continual adaptation [17], sample-efficient policy learning [7], and large-model inference [24] to make advanced multimodal systems practical.\n- **Reasoning Requires Architectural Intervention:** Genuine improvement in multimodal reasoning necessitates explicit architectural separations (e.g., perception vs. reasoning rewards [20]), structured decoding strategies [12], and frameworks for compositional rule learning [10].\n- **The Future is Systemic:** Progress hinges on moving beyond monolithic models to integrated systems that manage heterogeneous data flows [11], coordinate multi-agent workflows [16, 19], and provide explainable, auditable reasoning traces [8, 26].",
+    "papers": [
+      {
+        "title": "Learning to Select Visual In-Context Demonstrations",
+        "url": "",
+        "authors": [
+          "Eugene Lee",
+          "Yu-Chi Lin",
+          "Jiajie Diao"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "TED: Training-Free Experience Distillation for Multimodal Reasoning",
+        "url": "",
+        "authors": [
+          "Shuozhi Yuan",
+          "Jinqing Wang",
+          "Zihao Liu",
+          "Miaomiao Yuan",
+          "Haoran Peng",
+          "Jin Zhao",
+          "Bingwen Wang",
+          "Haoyi Wang"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "A Step Toward Federated Pretraining of Multimodal Large Language Models",
+        "url": "",
+        "authors": [
+          "Baochen Xiong",
+          "Yifan Xu",
+          "Xiaoshan Yang",
+          "Yaguang Song",
+          "Yaowei Wang",
+          "Changsheng Xu"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "From Pixels to BFS: High Maze Accuracy Does Not Imply Visual Planning",
+        "url": "",
+        "authors": [
+          "Alberto G. Rodriguez Salgado"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "A Comparative Study in Surgical AI: Datasets, Foundation Models, and Barriers to Med-AGI",
+        "url": "",
+        "authors": [
+          "Kirill Skobelev",
+          "Eric Fithian",
+          "Yegor Baranovski",
+          "Jack Cook",
+          "Sandeep Angara",
+          "Shauna Otto",
+          "Zhuang-Fang Yi",
+          "John Zhu",
+          "Daniel A. Donoho",
+          "X. Y. Han",
+          "Neeraj Mainkar",
+          "Margaux Masson-Forsythe"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "SACRED: A Faithful Annotated Multimedia Multimodal Multilingual Dataset for Classifying Connectedness Types in Online Spirituality",
+        "url": "",
+        "authors": [
+          "Qinghao Guan",
+          "Yuchen Pan",
+          "Donghao Li",
+          "Zishi Zhang",
+          "Yiyang Chen",
+          "Lu Li",
+          "Flaminia Canu",
+          "Emilia Volkart",
+          "Gerold Schneider"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Liquid Networks with Mixture Density Heads for Efficient Imitation Learning",
+        "url": "",
+        "authors": [
+          "Nikolaus Correll"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Dual-Stage LLM Framework for Scenario-Centric Semantic Interpretation in Driving Assistance",
+        "url": "",
+        "authors": [
+          "Jean Douglas Carvalho",
+          "Hugo Taciro Kenji",
+          "Ahmad Mohammad Saber",
+          "Glaucia Melo",
+          "Max Mauro Dias Santos",
+          "Deepa Kundur"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Spectral-Aware Text-to-Time Series Generation with Billion-Scale Multimodal Meteorological Data",
+        "url": "",
+        "authors": [
+          "Shijie Zhang"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "CARV: A Diagnostic Benchmark for Compositional Analogical Reasoning in Multimodal LLMs",
+        "url": "",
+        "authors": [
+          "Yongkang Du",
+          "Xiaohan Zou",
+          "Minhao Cheng",
+          "Lu Lin"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "HeteroHub: An Applicable Data Management Framework for Heterogeneous Multi-Embodied Agent System",
+        "url": "",
+        "authors": [
+          "Xujia Li",
+          "Xin Li",
+          "Junquan Huang",
+          "Beirong Cui",
+          "Zibin Wu",
+          "Lei Chen"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "When Choices Become Priors: Contrastive Decoding for Scientific Figure Multiple-Choice QA",
+        "url": "",
+        "authors": [
+          "Taeyun Roh",
+          "Eun-yeong Jo",
+          "Wonjune Jang",
+          "Jaewoo Kang"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Multimodal Forecasting for Commodity Prices Using Spectrogram-Based and Time Series Representations",
+        "url": "",
+        "authors": [
+          "Soyeon Park",
+          "Doohee Chung",
+          "Charmgil Hong"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "PReD: An LLM-based Foundation Multimodal Model for Electromagnetic Perception, Recognition, and Decision",
+        "url": "",
+        "authors": [
+          "Zehua Han",
+          "Jing Xiao",
+          "Yiqi Duan",
+          "Mengyu Xiang",
+          "Yuheng Ji",
+          "Xiaolong Zheng",
+          "Chenghanyu Zhang",
+          "Zhendong She",
+          "Junyu Shen",
+          "Dingwei Tan",
+          "Shichu Sun",
+          "Zhou Cong",
+          "Mingxuan Liu",
+          "Fengxiang Wang",
+          "Jinping Sun",
+          "Yangang Sun"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "GIFT: Bootstrapping Image-to-CAD Program Synthesis via Geometric Feedback",
+        "url": "",
+        "authors": [
+          "Giorgio Giannone",
+          "Anna Clare Doris",
+          "Amin Heyrani Nobari",
+          "Kai Xu",
+          "Akash Srivastava",
+          "Faez Ahmed"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Deep Research of Deep Research: From Transformer to Agent, From AI to AI for Science",
+        "url": "",
+        "authors": [
+          "Yipeng Yu"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "On Token's Dilemma: Dynamic MoE with Drift-Aware Token Assignment for Continual Learning of Large Vision Language Models",
+        "url": "",
+        "authors": [
+          "Chongyang Zhao",
+          "Mingsong Li",
+          "Haodong Lu",
+          "Dong Gong"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "The Scaffold Effect: How Prompt Framing Drives Apparent Multimodal Gains in Clinical VLM Evaluation",
+        "url": "",
+        "authors": [
+          "Doan Nam Long Vu",
+          "Simone Balloccu"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "MiroEval: Benchmarking Multimodal Deep Research Agents in Process and Outcome",
+        "url": "",
+        "authors": [
+          "Fangda Ye",
+          "Yuxin Hu",
+          "Pengxiang Zhu",
+          "Yibo Li",
+          "Ziqi Jin",
+          "Yao Xiao",
+          "Yibo Wang",
+          "Lei Wang",
+          "Zhen Zhang",
+          "Lu Wang",
+          "Yue Deng",
+          "Bin Wang",
+          "Yifan Zhang",
+          "Liangcai Su",
+          "Xinyu Wang",
+          "He Zhao",
+          "Chen Wei",
+          "Qiang Ren",
+          "Bryan Hooi",
+          "An Bo",
+          "Shuicheng Yan",
+          "Lidong Bing"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Seeing with You: Perception-Reasoning Coevolution for Multimodal Reasoning",
+        "url": "",
+        "authors": [
+          "Ziqi Miao",
+          "Haonan Jia",
+          "Lijun Li",
+          "Chen Qian",
+          "Yuan Xiong",
+          "Wenting Yan",
+          "Jing Shao"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities",
+        "url": "",
+        "authors": [
+          "Pranav M R",
+          "Jayant Chandwani",
+          "Ahmed M. Abdelmoniem",
+          "Arnab K. Paul"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Not Search, But Scan: Benchmarking MLLMs on Scan-Oriented Academic Paper Reasoning",
+        "url": "",
+        "authors": [
+          "Rongjin Li",
+          "Zichen Tang",
+          "Xianghe Wang",
+          "Xinyi Hu",
+          "Zhengyu Wang",
+          "Zhengyu Lu",
+          "Yiling Huang",
+          "Jiayuan Chen",
+          "Weisheng Tan",
+          "Jiacheng Liu",
+          "Zhongjun Yang",
+          "Haihong E"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "TMTE: Effective Multimodal Graph Learning with Task-aware Modality and Topology Co-evolution",
+        "url": "",
+        "authors": [
+          "Yinlin Zhu",
+          "Xunkai Li",
+          "Di Wu",
+          "Wang Luo",
+          "Miao Hu",
+          "Di Wu"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Efficient Inference of Large Vision Language Models",
+        "url": "",
+        "authors": [
+          "Surendra Pathak"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "Graph Vector Field: A Unified Framework for Multimodal Health Risk Assessment from Heterogeneous Wearable and Environmental Data Streams",
+        "url": "",
+        "authors": [
+          "Silvano Coletti",
+          "Francesca Fallucchi"
+        ],
+        "date": "2026-03-31"
+      },
+      {
+        "title": "ORACAL: A Robust and Explainable Multimodal Framework for Smart Contract Vulnerability Detection with Causal Graph Enrichment",
+        "url": "",
+        "authors": [
+          "Tran Duong Minh Dai",
+          "Triet Huynh Minh Le",
+          "M. Ali Babar",
+          "Van-Hau Pham",
+          "Phan The Duy"
+        ],
+        "date": "2026-03-31"
+      }
+    ]
+  }
+]
