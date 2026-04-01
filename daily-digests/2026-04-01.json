@@ -1,0 +1,299 @@
+[
+  {
+    "topic": "interpretability",
+    "date": "2026-04-01",
+    "paperCount": 7,
+    "markdown": "# Interpreting the Interpreter: New Frameworks for Probing Mechanisms, Equivalence, and Dynamics in AI Models\n\nToday's research landscape moves beyond surface-level performance metrics, focusing on developing rigorous, scalable frameworks to understand *how* models work, from their internal algorithmic processes to their training dynamics. A clear trend is the formalization of interpretability itself, with new methods for testing hypotheses, defining equivalence between interpretations, and efficiently generating explanations.\n\n## Probing Model Mechanisms with Token-Level Analysis\n\n**[1] \"Is my model perplexed for the right reason? Contrasting LLMs' Benchmark Behavior with Token-Level Perplexity\"** introduces a hypothesis-driven framework to test if a model's correct answers stem from linguistically appropriate reasoning. The core approach contrasts token-level perplexity distributions across minimal sentence pairs that differ only in pivotal tokens (e.g., a subject-verb agreement cue). This method reveals whether the model is sensitive to the correct linguistic features without relying on unstable post-hoc attribution techniques. It matters because it provides a principled, low-cost tool to detect when good benchmark performance is a misleading indicator of robust understanding, helping to mitigate confirmation bias in evaluation.\n\n## Formalizing and Scaling Mechanistic Interpretability\n\n**[6] \"Tracking Equivalent Mechanistic Interpretations Across Neural Networks\"** addresses the scalability and generalization challenges in mechanistic interpretability (MI) by formalizing the concept of \"interpretive equivalence.\" The paper defines the problem of determining whether two different models (or circuits within a model) implement the same underlying algorithmic process, moving MI away from ad-hoc, model-specific explanations. This formalization is crucial for building a cumulative science of interpretability, as it allows researchers to compare and transfer findings across different architectures and training runs, ultimately making MI more rigorous and applicable.\n\n**[7] \"Real-Time Explanations for Tabular Foundation Models\"** tackles the computational bottleneck of generating faithful explanations for powerful but opaque tabular models. The authors propose ShapPFN, a novel foundation model architecture that integrates Shapley value regression directly into its forward pass. This design allows the model to produce both a prediction and its corresponding explanation simultaneously, with the fidelity of post-hoc methods but at a fraction of the computational cost. This breakthrough enables interactive scientific exploration and validation with complex models, where understanding the \"why\" is as important as the prediction itself.\n\n## Interpretable Decompositions for Complex Systems\n\n**[2] \"Lie Generator Networks for Nonlinear Partial Differential Equations\"** seeks to bring the interpretability of linear systems theory to the complex, nonlinear world governed by PDEs. The proposed Lie Generator Network–Koopman (LGN-KM) is a neural operator that learns to lift nonlinear dynamics into a latent space where evolution is linear. Its key innovation is decomposing the learned Koopman generator into a skew-symmetric component (representing conservative energy transfer between modes) and a positive-definite diagonal component (encoding dissipation). This physically meaningful decomposition provides an interpretable spectral analysis of nonlinear systems, revealing underlying conservative and dissipative mechanisms.\n\n**[3] \"PRISM: PRIor from corpus Statistics for topic Modeling\"** improves the interpretability of a classic topic model, LDA, by deriving better initialization priors directly from the data itself. Instead of relying on external knowledge like pre-trained embeddings, PRISM calculates a Dirichlet prior parameter from intrinsic word co-occurrence statistics within the target corpus. This corpus-specific initialization leads to more coherent and interpretable topics, as demonstrated on text and single-cell RNA-seq data. The method matters because it enhances a well-understood, probabilistic framework, making it more powerful and applicable in specialized or emerging domains where external resources are scarce.\n\n## New Mathematical Lenses for Model Behavior and Data\n\n**[4] \"Nonnegative Matrix Factorization in the Component-Wise L1 Norm for Sparse Data\"** re-examines a foundational dimensionality reduction technique for improved robustness and interpretability in noisy settings. The paper proves that NMF under the L1 error metric (L1-NMF) is NP-hard, establishing its intrinsic difficulty compared to standard least-squares NMF. It then shows that this formulation strongly promotes sparsity in the factor matrices. This is significant for interpretability, as sparse factors are often easier to analyze, and the L1 norm's robustness to outliers leads to decompositions that capture the core, reliable structure of datasets corrupted by heavy-tailed noise.\n\n**[5] \"From Density Matrices to Phase Transitions in Deep Learning: Spectral Early Warnings and Interpretability\"** borrows a tool from quantum chemistry—the 2-datapoint reduced density matrix (2RDM)—to interpret training dynamics. By analyzing the eigenvalue statistics of the 2RDM over a sliding training window, the method derives two signals: \"spectral heat capacity\" for early warning of second-order phase transitions (linked to emergent capabilities) and a complementary signal for first-order transitions. This provides a unified, computationally efficient observable to predict and understand critical transitions during training, offering a novel lens on the otherwise opaque process of learning.\n\n## Key Takeaways\n-   **Evaluation must test mechanisms, not just outputs:** New frameworks like token-level perplexity contrasts [1] are essential for determining if models use correct reasoning, not just produce correct answers.\n-   **Interpretability requires formal foundations:** Scalability in mechanistic interpretability hinges on formal concepts like \"interpretive equivalence\" [6] to compare algorithmic processes across models systematically.\n-   **Explanation speed enables scientific discovery:** Integrating explanation generation directly into model architecture, as in ShapPFN [7], is critical for real-time, interactive hypothesis testing in scientific ML.\n-   **Interpretability often means finding linear or sparse structure:** A powerful path to understanding complex systems is to uncover underlying linear dynamics [2] or sparse factorizations [4] within them.\n-   **Better priors enhance classic models:** Simple, data-intrinsic improvements, like corpus-derived priors for LDA [3], can significantly boost the interpretability of well-established probabilistic methods.\n-   **Training dynamics are interpretable:** Tools from physics and quantum mechanics, like the reduced density matrix [5], can provide early warnings and insights into phase transitions during model training.\n-   **Robustness aids interpretability:** Using error metrics like the L1 norm [4] leads to more robust factorizations, which in turn yield sparser and more stable components that are easier for humans to interpret.",
+    "papers": [
+      {
+        "title": "Is my model perplexed for the right reason? Contrasting LLMs' Benchmark Behavior with Token-Level Perplexity",
+        "url": "",
+        "authors": [
+          "Zoë Prins",
+          "Samuele Punzo",
+          "Frank Wildenburg",
+          "Giovanni Cinà",
+          "Sandro Pezzelle"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Lie Generator Networks for Nonlinear Partial Differential Equations",
+        "url": "",
+        "authors": [
+          "Shafayeth Jamil",
+          "Rehan Kapadia"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "PRISM: PRIor from corpus Statistics for topic Modeling",
+        "url": "",
+        "authors": [
+          "Tal Ishon",
+          "Yoav Goldberg",
+          "Uri Shaham"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Nonnegative Matrix Factorization in the Component-Wise L1 Norm for Sparse Data",
+        "url": "",
+        "authors": [
+          "Giovanni Seraghiti",
+          "Kévin Dubrulle",
+          "Arnaud Vandaele",
+          "Nicolas Gillis"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "From Density Matrices to Phase Transitions in Deep Learning: Spectral Early Warnings and Interpretability",
+        "url": "",
+        "authors": [
+          "Max Hennick",
+          "Guillaume Corlouer"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Tracking Equivalent Mechanistic Interpretations Across Neural Networks",
+        "url": "",
+        "authors": [
+          "Alan Sun",
+          "Mariya Toneva"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Real-Time Explanations for Tabular Foundation Models",
+        "url": "",
+        "authors": [
+          "Luan Borges Teodoro Reis Sena",
+          "Francisco Galuppo Azevedo"
+        ],
+        "date": "2026-04-01"
+      }
+    ]
+  },
+  {
+    "topic": "explainability",
+    "date": "2026-04-01",
+    "paperCount": 2,
+    "markdown": "# The Neuro-Symbolic Frontier: Blending Causality, Reasoning, and Synthesis for Explainable AI\n\nToday's research landscape demonstrates a concerted push to move beyond black-box models by integrating structured reasoning, causal frameworks, and synthetic data generation to create inherently interpretable and trustworthy AI systems. The focus is shifting from post-hoc explanations to architectures where explainability is a first-class citizen, enabled by neuro-symbolic designs and agent-based collaboration.\n\n## Industrial-Grade Causal Diagnostics\n\n**CausalPulse: An Industrial-Grade Neurosymbolic Multi-Agent Copilot for Causal Diagnostics in Smart Manufacturing** [1] addresses the critical need for trustworthy, real-time root-cause analysis in complex manufacturing systems, where traditional analytics pipelines are siloed and lack scalability. Its core approach is a neurosymbolic multi-agent architecture that unifies anomaly detection, causal discovery, and reasoning using standardized agentic protocols to automate diagnostics. The key contribution is an industry-grade copilot that provides interpretable causal insights, moving from mere anomaly detection to actionable, explainable root-cause analysis. This matters because it operationalizes causal AI for high-stakes industrial environments, directly linking model decisions to tangible process improvements and sustained productivity.\n\n## Reasoning-Driven Synthetic Data Creation\n\n**Reasoning-Driven Synthetic Data Generation and Evaluation** [2] tackles the fundamental scarcity of specialized, high-quality training data for multi-modal AI models, where human annotation is costly and limiting. The paper introduces Simula, a novel method that moves beyond manual prompting or evolutionary algorithms by using structured reasoning to guide synthetic data generation. This approach aims to provide greater scalability, explainability, and control over the data creation process. It matters because it offers a path to generate tailored, reasoning-aligned datasets that can train more capable and interpretable models, potentially bypassing data bottlenecks and annotation biases.\n\n## Key Takeaways\n*   **Explainability by Design:** The leading trend is architecting systems where explainability is intrinsic, as seen in neuro-symbolic frameworks and reasoning-driven processes, rather than a retrofitted feature.\n*   **Causal Integration for Actionable Insights:** There is a clear shift from correlation-based analytics to causal diagnostics, which provides interpretable root-cause analysis essential for decision-making in complex, real-world domains like manufacturing.\n*   **Structured Reasoning as a Core Engine:** Advanced AI applications are increasingly leveraging explicit reasoning protocols to guide tasks, from data generation to diagnostic workflows, enhancing control and transparency.\n*   **Synthetic Data for Specialized Models:** To overcome data scarcity for niche applications, novel synthetic data generation methods focused on reasoning and control are emerging as a scalable and potentially more explainable alternative to human annotation.\n*   **Agentic Collaboration for Complex Pipelines:** Complex analytical tasks are being decomposed and managed by collaborative multi-agent systems, which can make the problem-solving process more modular, scalable, and interpretable.",
+    "papers": [
+      {
+        "title": "CausalPulse: An Industrial-Grade Neurosymbolic Multi-Agent Copilot for Causal Diagnostics in Smart Manufacturing",
+        "url": "",
+        "authors": [
+          "Chathurangi Shyalika",
+          "Utkarshani Jaimini",
+          "Cory Henson",
+          "Amit Sheth"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Reasoning-Driven Synthetic Data Generation and Evaluation",
+        "url": "",
+        "authors": [
+          "Tim R. Davidson",
+          "Benoit Seguin",
+          "Enrico Bacis",
+          "Cesar Ilharco",
+          "Hamza Harkous"
+        ],
+        "date": "2026-04-01"
+      }
+    ]
+  },
+  {
+    "topic": "multimodal",
+    "date": "2026-04-01",
+    "paperCount": 13,
+    "markdown": "# The Rise of Agentic and Specialized Multimodal Systems\n\nRecent multimodal research is shifting from general-purpose model scaling towards the development of specialized, agentic systems that can execute complex, multi-step tasks in specific domains, from scientific visualization to healthcare. Concurrently, there is a strong emphasis on rigorous evaluation through new benchmarks and a deeper, more quantitative understanding of how these models fuse information across modalities.\n\n## Benchmarking Agentic Multimodal Systems\n\n**[1] SciVisAgentBench: A Benchmark for Evaluating Scientific Data Analysis and Visualization Agents**\nThis paper addresses the lack of principled evaluation for AI agents that perform scientific visualization tasks from natural language instructions. The core contribution is a comprehensive, extensible benchmark grounded in a structured taxonomy across application domain, data type, and complexity. It provides a reproducible framework for assessing agents in realistic, multi-step analysis settings, which is crucial for advancing trustworthy automation in scientific discovery.\n\n**[3] AEC-Bench: A Multimodal Benchmark for Agentic Systems in Architecture, Engineering, and Construction**\nThe authors identify a gap in evaluating multimodal agents on complex, real-world tasks in the AEC industry. They introduce a benchmark covering tasks like drawing understanding, cross-sheet reasoning, and project coordination. By establishing this evaluation protocol and providing baseline results, the work aims to identify design techniques that improve agent performance, directly supporting the development of practical AI tools for a high-stakes domain.\n\n**[11] Mind the Gap: A Framework for Assessing Pitfalls in Multimodal Active Learning**\nThis work tackles the poorly understood challenges of active learning in multimodal settings, such as missing modalities and varying modality difficulty. The authors introduce a novel benchmarking framework that uses synthetic data to systematically isolate and study these pitfalls. This provides a controlled environment to characterize the behavior of active learning strategies, which is essential for developing more robust and data-efficient multimodal training pipelines.\n\n## Advancing Multimodal Foundation Models for Industry\n\n**[4] Xuanwu: Evolving General Multimodal Models into an Industrial-Grade Foundation for Content Ecosystems**\nThe paper highlights the failure of mainstream multimodal models in real-world, adversarial settings like content moderation due to degraded generalization. It presents Xuanwu VL-2B as a case study, featuring a compact architecture designed to balance fine-grained visual perception with efficient language processing. This approach demonstrates a pathway to create robust, industrial-grade foundation models capable of handling long-tail noise and complex content ecosystem tasks.\n\n**[10] A Comprehensive Information-Decomposition Analysis of Large Vision-Language Models**\nTo demystify the decision-making of LVLMs, this research introduces a framework using partial information decomposition (PID) to quantify the \"information spectrum\" of model predictions. The model-agnostic method decomposes information into redundant, unique, and synergistic components, allowing researchers to determine if success stems from true multimodal fusion or unimodal priors. This provides a crucial analytical tool for understanding and improving multimodal integration.\n\n## Multimodal Agents for Tool Use and Automation\n\n**[2] Webscraper: Leverage Multimodal Large Language Models for Index-Content Web Scraping**\nAddressing the brittleness of traditional web scrapers on dynamic sites, this work introduces Webscraper, a framework that uses an MLLM as an autonomous agent to navigate interactive interfaces and extract structured data. It employs a structured five-stage prompting process to invoke specialized tools, offering a more robust and generalizable solution for modern web data extraction without requiring extensive manual customization per site.\n\n**[8] Owl-AuraID 1.0: An Intelligent System for Autonomous Scientific Instrumentation and Scientific Data Analysis**\nThis paper tackles the automation bottleneck in high-throughput scientific characterization caused by proprietary instrument GUIs. Owl-AuraID is presented as an embodied agent system that operates instruments via their native GUIs, integrating physical operation (Type-1) and data analysis (Type-2) skills into end-to-end workflows. Its skill-centric framework demonstrates broad coverage and represents a significant step toward fully autonomous, GUI-native laboratory automation.\n\n**[9] ATP-Bench: Towards Agentic Tool Planning for MLLM Interleaved Generation**\nThe authors argue that current interleaved text-and-image generation paradigms fail to unify factuality (retrieval) with creativity (generation). They propose Agentic Tool Planning as the next milestone, where the MLLM acts as a central controller that autonomously decides when to invoke which tools. ATP-Bench is introduced to evaluate this capability, pushing the field toward more intuitive and reliable multimodal content creation.\n\n## Multimodal Applications in Science and Medicine\n\n**[6] Improving Ensemble Forecasts of Abnormally Deflecting Tropical Cyclones with Fused Atmosphere-Ocean-Terrain Data**\nThis research addresses the limitation of existing deep learning TC forecast models, which process only homogeneous data and fail at predicting abnormal deflections. The key contribution is a novel multimodal fusion architecture that integrates heterogeneous atmosphere, ocean, and terrain data. This approach significantly improves forecasting accuracy for these high-impact, complex events, showcasing the power of multimodal learning in geophysical sciences.\n\n**[12] Multimodal Machine Learning for Early Prediction of Metastasis in a Swedish Multi-Cancer Cohort**\nFocusing on a critical clinical challenge, this work develops a framework to predict metastasis risk one month prior to diagnosis by integrating structured and unstructured EHR data over a six-month history. By analyzing a large multi-cancer cohort and comparing multimodal deep learning to traditional models, it demonstrates the potential of a holistic, data-integrated view to improve early intervention in oncology.\n\n**[13] Quantifying Cross-Modal Interactions in Multimodal Glioma Survival Prediction via InterSHAP**\nChallenging the common assumption of synergistic benefits in multimodal cancer prognosis, this paper adapts the InterSHAP metric to survival analysis. Applying it to models combining histology images and RNA-seq data for glioma, it finds an inverse relationship between claimed model performance and measurable synergistic interaction, suggesting many architectures may primarily perform additive signal integration rather than discovering complex cross-modal interactions.\n\n## Expanding Resources and Safety\n\n**[5] The Thiomi Dataset: A Large-Scale Multimodal Corpus for Low-Resource African Languages**\nTo combat data scarcity for African languages, this paper presents the Thiomi Dataset, a large-scale multimodal corpus spanning ten languages across four families. Collected via a dedicated community platform, it includes hundreds of thousands of text annotations and audio recordings. This resource is vital for building inclusive speech and language technologies and preserving linguistic diversity in the AI landscape.\n\n**[7] Calibrated Confidence Expression for Radiology Report Generation**\nHighlighting a key safety concern for clinical deployment, this work addresses the overconfidence and poor calibration of LVLMs in radiology report generation. It investigates methods for producing clinically interpretable, verbalized confidence indicators, aiming to enable selective radiologist verification. This research is critical for reducing the risk of hallucinated findings influencing patient care and building trust in AI-assisted diagnostics.\n\n## Key Takeaways\n- The field is rapidly advancing toward **specialized, agentic multimodal systems** capable of executing complex, domain-specific workflows in science (SciVisAgentBench, Owl-AuraID), engineering (AEC-Bench), and web interaction (Webscraper).\n- There is a growing focus on **rigorous evaluation and understanding**, with new benchmarks targeting agentic tool planning (ATP-Bench) and frameworks to quantify multimodal interactions (InterSHAP, PID analysis) moving beyond simple performance metrics.\n- **Industrial robustness** is a major concern, driving the development of compact, adversarially hardened foundation models (Xuanwu) and safety-focused techniques like calibrated confidence for high-stakes domains like healthcare and content moderation.\n- Effective multimodal fusion is not guaranteed; analysis reveals that many models may rely on **additive integration of unimodal signals** rather than discovering true synergy, questioning common architectural assumptions.\n- Significant efforts are underway to **expand multimodal resources** to low-resource languages (Thiomi Dataset) and to apply multimodal learning to solve pressing real-world problems in climate forecasting and early medical prediction.",
+    "papers": [
+      {
+        "title": "SciVisAgentBench: A Benchmark for Evaluating Scientific Data Analysis and Visualization Agents",
+        "url": "",
+        "authors": [
+          "Kuangshi Ai",
+          "Haichao Miao",
+          "Kaiyuan Tang",
+          "Nathaniel Gorski",
+          "Jianxin Sun",
+          "Guoxi Liu",
+          "Helgi I. Ingolfsson",
+          "David Lenz",
+          "Hanqi Guo",
+          "Hongfeng Yu",
+          "Teja Leburu",
+          "Michael Molash",
+          "Bei Wang",
+          "Tom Peterka",
+          "Chaoli Wang",
+          "Shusen Liu"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Webscraper: Leverage Multimodal Large Language Models for Index-Content Web Scraping",
+        "url": "",
+        "authors": [
+          "Guan-Lun Huang",
+          "Yuh-Jzer Joung"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "AEC-Bench: A Multimodal Benchmark for Agentic Systems in Architecture, Engineering, and Construction",
+        "url": "",
+        "authors": [
+          "Harsh Mankodiya",
+          "Chase Gallik",
+          "Theodoros Galanos",
+          "Andriy Mulyar"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Xuanwu: Evolving General Multimodal Models into an Industrial-Grade Foundation for Content Ecosystems",
+        "url": "",
+        "authors": [
+          "Zhiqian Zhang",
+          "Xu Zhao",
+          "Xiaoqing Xu",
+          "Guangdong Liang",
+          "Weijia Wang",
+          "Xiaolei Lv",
+          "Bo Li",
+          "Jun Gao"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "The Thiomi Dataset: A Large-Scale Multimodal Corpus for Low-Resource African Languages",
+        "url": "",
+        "authors": [
+          "Hillary Mutisya",
+          "John Mugane",
+          "Gavin Nyamboga",
+          "Brian Chege",
+          "Maryruth Gathoni"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Improving Ensemble Forecasts of Abnormally Deflecting Tropical Cyclones with Fused Atmosphere-Ocean-Terrain Data",
+        "url": "",
+        "authors": [
+          "Qixiang Li",
+          "Shuwei Huo",
+          "Chong Wang",
+          "Xiaofeng Li",
+          "Yuan Zhou"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Calibrated Confidence Expression for Radiology Report Generation",
+        "url": "",
+        "authors": [
+          "David Bani-Harouni",
+          "Chantal Pellegrini",
+          "Julian Lüers",
+          "Su Hwan Kim",
+          "Markus Baalmann",
+          "Benedikt Wiestler",
+          "Rickmer Braren",
+          "Nassir Navab",
+          "Matthias Keicher"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Owl-AuraID 1.0: An Intelligent System for Autonomous Scientific Instrumentation and Scientific Data Analysis",
+        "url": "",
+        "authors": [
+          "Han Deng",
+          "Anqi Zou",
+          "Hanling Zhang",
+          "Ben Fei",
+          "Chengyu Zhang",
+          "Haobo Wang",
+          "Xinru Guo",
+          "Zhenyu Li",
+          "Xuzhu Wang",
+          "Peng Yang",
+          "Fujian Zhang",
+          "Weiyu Guo",
+          "Xiaohong Shao",
+          "Zhaoyang Liu",
+          "Shixiang Tang",
+          "Zhihui Wang",
+          "Wanli Ouyang"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "ATP-Bench: Towards Agentic Tool Planning for MLLM Interleaved Generation",
+        "url": "",
+        "authors": [
+          "Yinuo Liu",
+          "Zi Qian",
+          "Heng Zhou",
+          "Jiahao Zhang",
+          "Yajie Zhang",
+          "Zhihang Li",
+          "Mengyu Zhou",
+          "Erchao Zhao",
+          "Xiaoxi Jiang",
+          "Guanjun Jiang"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "A Comprehensive Information-Decomposition Analysis of Large Vision-Language Models",
+        "url": "",
+        "authors": [
+          "Lixin Xiu",
+          "Xufang Luo",
+          "Hideki Nakayama"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Mind the Gap: A Framework for Assessing Pitfalls in Multimodal Active Learning",
+        "url": "",
+        "authors": [
+          "Dustin Eisenhardt",
+          "Yunhee Jeong",
+          "Florian Buettner"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Multimodal Machine Learning for Early Prediction of Metastasis in a Swedish Multi-Cancer Cohort",
+        "url": "",
+        "authors": [
+          "Franco Rugolon",
+          "Korbinian Randl",
+          "Braslav Jovanovic",
+          "Ioanna Miliou",
+          "Panagiotis Papapetrou"
+        ],
+        "date": "2026-04-01"
+      },
+      {
+        "title": "Quantifying Cross-Modal Interactions in Multimodal Glioma Survival Prediction via InterSHAP: Evidence for Additive Signal Integration",
+        "url": "",
+        "authors": [
+          "Iain Swift",
+          "JingHua Ye",
+          "Ruairi O'Reilly"
+        ],
+        "date": "2026-04-01"
+      }
+    ]
+  }
+]
