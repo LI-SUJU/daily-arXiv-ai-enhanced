@@ -1,0 +1,313 @@
+[
+  {
+    "topic": "interpretability",
+    "date": "2026-04-02",
+    "paperCount": 11,
+    "markdown": "# The Interpretability Frontier: From Latent Reasoning to Multi-Agent Systems\n\nToday's research landscape demonstrates a strong push to move beyond black-box AI, focusing on techniques to understand, control, and secure complex models and multi-agent systems. A key theme is the application of interpretability methods not just for diagnostics, but as foundational components for building safer, more reliable, and more efficient AI applications across diverse domains.\n\n## Multi-Agent Systems: Orchestration, Coordination, and Oversight\n\nResearch is advancing frameworks to manage the complexity and emergent risks of systems composed of multiple interacting AI agents. [1] addresses the challenge of safety and functional diversity in behavioral health simulations by proposing a role-orchestrated multi-agent LLM framework, where specialized agents (empathy, action, supervision) are dynamically coordinated by a prompt-based controller that enforces continuous safety auditing. This matters because it provides a structured, interpretable architecture for sensitive applications, moving beyond the limitations of a single, monolithic agent. [4] tackles the novel security risk of covert coordination between AI agents by introducing NARCBench, a benchmark for evaluating collusion detection under distribution shift, and proposing probing techniques that aggregate per-agent deception scores from internal representations. This work is crucial as it extends interpretability probes from single-agent deception to a multi-agent context, a necessary step for oversight in deployed systems. [5] identifies the multi-agent credit assignment problem as a bottleneck for LLM agents learning to coordinate, proposing LangMARL, a framework that integrates credit assignment and policy gradient evolution from classical MARL into the language space. By providing clearer causal signals for policy refinement, it enables LLM agents to autonomously evolve more effective and interpretable coordination strategies in dynamic environments.\n\n## Probing and Understanding Model Internals\n\nA core strand of interpretability research seeks to diagnose specific failure modes and internal learning dynamics within models. [7] investigates why LLMs fail on simple symbolic tasks like character counting by using it as a controlled probe, uncovering a consistent phenomenon where models compute the correct answer internally yet suppress it at the output layer due to late-stage interference. This finding is significant as it shifts the blame from a lack of computational capability to a failure in expression, pointing to new avenues for model debugging and alignment. [8] explores how LLMs acquire new languages during training, investigating the emergence of \"positional cognitive specialization\"—where specific model layers become specialized for language perception (comprehension) versus production. Understanding these training dynamics is key for enabling more efficient and transparent adaptation of models to new languages, moving beyond opaque fine-tuning.\n\n## Interpretable and Hybrid Modeling for Scientific & Medical Domains\n\nThere is a concerted effort to bridge the gap between high-performing deep learning and interpretable, scientifically-grounded models in technical fields. [3] targets the lack of interpretability in epileptic seizure detection from EEG signals by proposing a frequency-aware framework that decomposes signals into neurophysiologically relevant bands before applying a Graph Convolutional Network (GCN). This approach marries the pattern recognition power of GCNs with a feature structure that clinicians can understand, enhancing trust and diagnostic relevance. [6] addresses the fundamental trade-off between scalability and interpretability in predicting ultra-large complex systems (e.g., climate, biological networks) by introducing the Sparse Identification Graph Neural Network, a framework that infers governing equations at the edge-level of a graph. This breakthrough allows for the discovery of interpretable, symbolic equations that govern system dynamics directly from data, combining the scalability of GNNs with the clarity of equation discovery.\n\n## Security and Reliability in Latent and Continuous Reasoning\n\nAs reasoning paradigms evolve, new attack surfaces and reliability challenges emerge, demanding novel interpretability and security approaches. [9] exposes a critical vulnerability in models that reason entirely in continuous latent states (producing no intermediate tokens) through \"ThoughtSteer,\" a backdoor attack that perturbs a single input embedding. The model's own multi-pass reasoning amplifies this into a hijacked latent trajectory that delivers a malicious output, evading all token-level defenses. This work matters profoundly as it reveals that silent reasoning creates a new, structurally invisible attack surface, necessitating the development of latent-space interpretability and security monitors. [2] aims to improve the interpretability and performance of Multimodal Large Language Models (MLLMs) on hard sentiment analysis samples by proposing MSA-Thinker, which uses hint-guided reinforcement learning to calibrate discrimination-reasoning chains. This addresses the inefficiency of standard RL in this context and moves beyond black-box end-to-end fine-tuning, making the model's reasoning process more transparent and robust.\n\n## Data-Driven Frameworks for Specialized Applications\n\nInterpretability is also being leveraged to create actionable insights in specialized, non-language domains. [10] presents a data-driven framework for personalized darts training, moving beyond static metrics by using skeleton-based biomechanical analysis and motion modeling to capture useful movement variability. The interpretability of the biomechanical model allows coaches and athletes to understand the \"why\" behind performance suggestions, enabling truly personalized training interventions. [11] tackles scientific algorithm discovery with CliffSearch, an agentic co-evolution framework where LLM agents evolve structured artifacts containing both theory and code. By maintaining and operating over this structured, interpretable representation, the system ensures that the evolutionary search is scientifically grounded, promoting the discovery of correct and novel algorithms rather than just functional code.\n\n## Key Takeaways\n- **Multi-agent interpretability is a critical new frontier**, essential for detecting emergent risks like collusion [4] and for building safe, orchestrated systems for sensitive applications like behavioral health [1].\n- **Model failures can stem from expressive suppression, not lack of capability**, as evidenced by LLMs correctly computing but then failing to output answers for simple tasks, highlighting a need for new internal diagnostics [7].\n- **Hybrid models that combine deep learning with symbolic or structured components** are key to achieving both high performance and interpretability in scientific and medical domains, from epilepsy detection [3] to discovering equations for complex systems [6].\n- **New reasoning paradigms introduce novel security risks;** continuous latent reasoning models are vulnerable to stealthy backdoor attacks that are invisible to traditional token-based monitors, demanding new defensive approaches [9].\n- **Structured, multi-representation evolution** (e.g., co-evolving theory and code) leads to more scientifically valid and interpretable outcomes in automated discovery processes than optimizing for code alone [11].\n- **Interpretability can be integrated into the training loop** to improve both performance and transparency, as seen with hint-guided RL for multimodal reasoning [2] and credit assignment in multi-agent language learning [5].\n- **Understanding internal specialization during training**, such as how layers acquire distinct language comprehension and production functions, is vital for efficient and transparent model adaptation [8].",
+    "papers": [
+      {
+        "title": "A Safety-Aware Role-Orchestrated Multi-Agent LLM Framework for Behavioral Health Communication Simulation",
+        "url": "",
+        "authors": [
+          "Ha Na Cho"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "MSA-Thinker: Discrimination-Calibration Reasoning with Hint-Guided Reinforcement Learning for Multimodal Sentiment Analysis",
+        "url": "",
+        "authors": [
+          "Miaosen Luo",
+          "Zhenhao Yang",
+          "Jieshen Long",
+          "Jinghu Sun",
+          "Yichu Liu",
+          "Sijie Mai"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Epileptic Seizure Detection in Separate Frequency Bands Using Feature Analysis and Graph Convolutional Neural Network (GCN) from Electroencephalogram (EEG) Signals",
+        "url": "",
+        "authors": [
+          "Ferdaus Anam Jibon",
+          "Fazlul Hasan Siddiqui",
+          "F. Deeba",
+          "Gahangir Hossain"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Detecting Multi-Agent Collusion Through Multi-Agent Interpretability",
+        "url": "",
+        "authors": [
+          "Aaron Rose",
+          "Carissa Cullen",
+          "Brandon Gary Kaplowitz",
+          "Christian Schroeder de Witt"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "LangMARL: Natural Language Multi-Agent Reinforcement Learning",
+        "url": "",
+        "authors": [
+          "Huaiyuan Yao",
+          "Longchao Da",
+          "Xiaoou Liu",
+          "Charles Fleming",
+          "Tianlong Chen",
+          "Hua Wei"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Predicting Dynamics of Ultra-Large Complex Systems by Inferring Governing Equations",
+        "url": "",
+        "authors": [
+          "Qi Shao",
+          "Duxin Chen",
+          "Jiawen Chen",
+          "Yujie Zeng",
+          "Athen Ma",
+          "Wenwu Yu",
+          "Vito Latora",
+          "Wei Lin"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "From Early Encoding to Late Suppression: Interpreting LLMs on Character Counting Tasks",
+        "url": "",
+        "authors": [
+          "Ayan Datta",
+          "Mounika Marreddy",
+          "Alexander Mehler",
+          "Zhixue Zhao",
+          "Radhika Mamidi"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Positional Cognitive Specialization: Where Do LLMs Learn To Comprehend and Speak Your Language?",
+        "url": "",
+        "authors": [
+          "Luis Frentzen Salim",
+          "Lun-Wei Ku",
+          "Hsing-Kuo Kenneth Pao"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Thinking Wrong in Silence: Backdoor Attacks on Continuous Latent Reasoning",
+        "url": "",
+        "authors": [
+          "Swapnil Parekh"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Toward Personalized Darts Training: A Data-Driven Framework Based on Skeleton-Based Biomechanical Analysis and Motion Modeling",
+        "url": "",
+        "authors": [
+          "Zhantao Chen",
+          "Dongyi He",
+          "Jin Fang",
+          "Xi Chen",
+          "Yisuo Liu",
+          "Xiaozhen Zhong",
+          "Xuejun Hu"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "CliffSearch: Structured Agentic Co-Evolution over Theory and Code for Scientific Algorithm Discovery",
+        "url": "",
+        "authors": [
+          "Youssef Mroueh",
+          "Carlos Fonseca",
+          "Brian Belgodere",
+          "David Cox"
+        ],
+        "date": "2026-04-02"
+      }
+    ]
+  },
+  {
+    "topic": "multimodal",
+    "date": "2026-04-02",
+    "paperCount": 12,
+    "markdown": "# The Unified Multimodal Frontier: Architectures, Agents, and Safety\n\nToday's research landscape is characterized by a powerful drive toward architectural unification, where single models aim to natively understand and generate across text, image, speech, and video. Concurrently, a critical parallel focus is emerging on deploying these powerful unified systems responsibly, whether as autonomous agents with memory or in safety-sensitive applications, necessitating new benchmarks and alignment techniques.\n\n## Architectures for Omnimodal Understanding and Generation\n\nA central theme is the architectural innovation required to truly unify diverse modalities. **Dynin-Omni**[2] proposes a radical departure from autoregressive or compositional models by formulating omnimodal modeling as masked diffusion over a shared discrete token space, enabling iterative refinement for unified text, image, speech, and video tasks. Similarly, **Adapting Text LLMs to Speech via Multimodal Depth Up-Scaling**[9] addresses the challenge of modality expansion without catastrophic forgetting, inserting and training new transformer layers on speech data into a frozen text LLM, successfully preserving original text capabilities while achieving competitive speech recognition. **MOON3.0**[10] argues for a shift in how MLLMs are used for product understanding, leveraging their reasoning capabilities to explicitly model fine-grained attributes rather than using them as implicit feature extractors, aiming for more interpretable and detailed representations.\n\n## The Rise of Context-Aware and Lifelong AI Agents\n\nResearch is advancing AI agents from single-task executors to persistent, context-aware assistants with memory. **HippoCamp**[7] introduces a benchmark to evaluate agents on multimodal file management within massive, personalized file systems, pushing agents to model user profiles and perform context-aware reasoning over real-world data. To equip such agents with long-term memory, **OmniMem**[6] employs an autonomous research pipeline to discover a unified multimodal memory framework, navigating a vast design space to significantly improve an agent's ability to retain and recall experiences over extended horizons. In a specialized domain, **Collaborative AI Agents and Critics**[1] develops a federated multi-agent system where AI agents and critics, equipped with classical or generative models, collaborate on complex multimodal tasks like network fault analysis, demonstrating a scalable framework for distributed problem-solving.\n\n## Safety, Alignment, and Evaluation in Unified Systems\n\nAs models become more unified and capable, new safety vulnerabilities and evaluation gaps are exposed. **Does Unification Come at a Cost? Uni-SafeBench**[5] directly tackles this by introducing a comprehensive safety benchmark with a taxonomy of six attack types, designed to holistically evaluate the safety of Unified Multimodal Large Models (UMLMs) where deep feature fusion may create novel failure modes. Complementing this, **Robust Multimodal Safety via Conditional Decoding**[8] proposes a defensive technique, CASA, which uses a safety attention module and conditional decoding to mitigate the degraded safety alignment observed when harmful queries exploit cross-modal interactions in MLLMs. **MSA-Thinker**[3] addresses the related issue of interpretability in Multimodal Sentiment Analysis, introducing a hint-guided reinforcement learning method to train MLLMs in discrimination-calibration reasoning, improving performance on hard samples while making the model's decision process more transparent.\n\n## Specialized Applications and Methodological Innovations\n\nBeyond core architecture and safety, work continues on applying multimodal techniques to diverse, impactful domains and developing novel algorithmic approaches. **Multimodal Analysis of State-Funded News Coverage**[11] applies a pipeline of automatic transcription, sentiment analysis, and scene classification to over 2,300 YouTube Shorts, providing a systematic, data-driven examination of how the Israel-Hamas war is represented in short-form video by different state actors. In healthcare and mobility, **Sit-to-Stand Transitions Detection**[4] presents a methodology using a smart lacelock sensor to detect and measure a critical functional movement, offering a tool for monitoring musculoskeletal health and fall risk in aging populations. For control problems, **Flow-based Policy With Distributional RL**[12] proposes a novel reinforcement learning algorithm that uses a flow-based policy to capture multimodal action distributions and distributional value learning, better handling tasks with multiple optimal solutions.\n\n## Key Takeaways\n- **Architectural Unification is Evolving:** New paradigms like masked diffusion over a shared token space [2] and depth up-scaling [9] are challenging serialized autoregressive approaches for building truly omnimodal foundation models.\n- **Agent Research is Maturing:** The focus is shifting to long-term, context-aware operation, necessitating benchmarks for personal computing [7] and automated discovery of lifelong memory systems [6].\n- **Unification Introduces Novel Safety Risks:** Deep fusion of modalities in unified models creates new attack surfaces, demanding holistic safety benchmarks [5] and alignment techniques that operate across modalities [8].\n- **Interpretability Remains a Key Challenge:** For high-stakes applications like sentiment analysis, methods that inject explicit, trainable reasoning chains [3] are crucial for moving beyond \"black-box\" MLLMs.\n- **Multimodal Analysis is a Powerful Tool for Social Science:** Automated, scalable pipelines can analyze vast corpora of video content [11], enabling empirical study of media representation and narrative framing in geopolitical events.",
+    "papers": [
+      {
+        "title": "Collaborative AI Agents and Critics for Fault Detection and Cause Analysis in Network Telemetry",
+        "url": "",
+        "authors": [
+          "Syed Eqbal Alam",
+          "Zhan Shu"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Dynin-Omni: Omnimodal Unified Large Diffusion Language Model",
+        "url": "",
+        "authors": [
+          "Jaeik Kim",
+          "Woojin Kim",
+          "Jihwan Hong",
+          "Yejoon Lee",
+          "Sieun Hyeon",
+          "Mintaek Lim",
+          "Yunseok Han",
+          "Dogeun Kim",
+          "Hoeun Lee",
+          "Hyunggeun Kim",
+          "Jaeyoung Do"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "MSA-Thinker: Discrimination-Calibration Reasoning with Hint-Guided Reinforcement Learning for Multimodal Sentiment Analysis",
+        "url": "",
+        "authors": [
+          "Miaosen Luo",
+          "Zhenhao Yang",
+          "Jieshen Long",
+          "Jinghu Sun",
+          "Yichu Liu",
+          "Sijie Mai"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Sit-to-Stand Transitions Detection and Duration Measurement Using Smart Lacelock Sensor",
+        "url": "",
+        "authors": [
+          "Md Rafi Islam",
+          "Md Rejwanul Haque",
+          "Elizabeth Choma",
+          "Shannon Hayes",
+          "Siobhan McMahon",
+          "Xiangrong Shen",
+          "Edward Sazonov"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Does Unification Come at a Cost? Uni-SafeBench: A Safety Benchmark for Unified Multimodal Large Models",
+        "url": "",
+        "authors": [
+          "Zixiang Peng",
+          "Yongxiu Xu",
+          "Qinyi Zhang",
+          "Jiexun Shen",
+          "Yifan Zhang",
+          "Hongbo Xu",
+          "Yubin Wang",
+          "Gaopeng Gou"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "OmniMem: Autoresearch-Guided Discovery of Lifelong Multimodal Agent Memory",
+        "url": "",
+        "authors": [
+          "Jiaqi Liu",
+          "Zipeng Ling",
+          "Shi Qiu",
+          "Yanqing Liu",
+          "Siwei Han",
+          "Peng Xia",
+          "Haoqin Tu",
+          "Zeyu Zheng",
+          "Cihang Xie",
+          "Charles Fleming",
+          "Mingyu Ding",
+          "Huaxiu Yao"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "HippoCamp: Benchmarking Contextual Agents on Personal Computers",
+        "url": "",
+        "authors": [
+          "Zhe Yang",
+          "Shulin Tian",
+          "Kairui Hu",
+          "Shuai Liu",
+          "Hoang-Nhat Nguyen",
+          "Yichi Zhang",
+          "Zujin Guo",
+          "Mengying Yu",
+          "Zinan Zhang",
+          "Jingkang Yang",
+          "Chen Change Loy",
+          "Ziwei Liu"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Robust Multimodal Safety via Conditional Decoding",
+        "url": "",
+        "authors": [
+          "Anurag Kumar",
+          "Raghuveer Peri",
+          "Jon Burnsky",
+          "Alexandru Nelus",
+          "Rohit Paturi",
+          "Srikanth Vishnubhotla",
+          "Yanjun Qi"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Adapting Text LLMs to Speech via Multimodal Depth Up-Scaling",
+        "url": "",
+        "authors": [
+          "Kazuki Yano",
+          "Jun Suzuki",
+          "Shinji Watanabe"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "MOON3.0: Reasoning-aware Multimodal Representation Learning for E-commerce Product Understanding",
+        "url": "",
+        "authors": [
+          "Junxian Wu",
+          "Chenghan Fu",
+          "Zhanheng Nie",
+          "Daoze Zhang",
+          "Bowen Wan",
+          "Wanxian Guan",
+          "Chuan Yu",
+          "Jian Xu",
+          "Bo Zheng"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Multimodal Analysis of State-Funded News Coverage of the Israel-Hamas War on YouTube Shorts",
+        "url": "",
+        "authors": [
+          "Daniel Miehling",
+          "Sandra Kuebler"
+        ],
+        "date": "2026-04-02"
+      },
+      {
+        "title": "Flow-based Policy With Distributional Reinforcement Learning in Trajectory Optimization",
+        "url": "",
+        "authors": [
+          "Ruijie Hao",
+          "Longfei Zhang",
+          "Yang Dai",
+          "Yang Ma",
+          "Xingxing Liang",
+          "Guangquan Cheng"
+        ],
+        "date": "2026-04-02"
+      }
+    ]
+  }
+]
